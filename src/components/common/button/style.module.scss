@@ -1,0 +1,24 @@
+$btn-size: 40px;
+
+.container {
+    background-color: black;
+    min-width: $btn-size;
+    min-height: $btn-size;
+    height: $btn-size;
+    width: $btn-size;
+    border-radius: 50%;
+    border: 0;
+    cursor: pointer;
+    &:hover {
+
+    }
+    &.done {
+
+    }
+    &.remove {
+        
+    }
+    &.add {
+        
+    }
+}

@@ -1,0 +1,23 @@
+.container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    margin-bottom: 20px;
+    &.done {
+        opacity: 0.5;
+    }
+    & .inner {
+        background-color: red;
+        border-radius: 50px;
+        padding: 5px;
+        max-width: 500px;
+        width: 100%;
+        display: flex;
+        justify-content: space-between;
+        & .text_wrapper {
+            width: 100%;
+            color: #fff;
+        }
+    }
+}
