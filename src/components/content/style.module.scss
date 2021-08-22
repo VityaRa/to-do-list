@@ -1,0 +1,6 @@
+@import "../../mixins/style.module.scss";
+
+.content {
+    height: 100%;
+    @include flex-center();
+}
