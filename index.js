@@ -11,11 +11,13 @@ const mongoClient = new MongoClient("mongodb+srv://Vityarka:2301some36rand41@clu
 app.use(express.static(__dirname + "/public"));
 app.use(cors());
 
+const PORT = process.env.PORT || 5000
+
 (async () => {
     try {
         await mongoClient.connect();
         app.locals.collection = mongoClient.db("listdb").collection("items");
-        await app.listen(3001);
+        await app.listen(PORT);
         console.log("Сервер ожидает подключения...");
     } catch (err) {
         return console.log(err);
@@ -64,7 +66,6 @@ app.post("/api/item", jsonParser, async (req, res) => {
 });
 
 app.delete("/api/item/:id", async (req, res) => {
-
     const id = new objectId(req.params.id);
     const collection = req.app.locals.collection;
     try {
