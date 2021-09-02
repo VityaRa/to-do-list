@@ -3,4 +3,5 @@
 .content {
     height: 100%;
     @include flex-center();
+    flex-direction: column;
 }

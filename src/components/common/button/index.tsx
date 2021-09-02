@@ -34,7 +34,7 @@ export const DoneButton = ({onClick}: Partial<IButton>) => {
     )
 }
 
-export const AddButton = (onClick: () => void) => {
+export const AddButton = ({onClick}: Partial<IButton>) => {
     return (
         <Button type={ButtonType.ADD} onClick={onClick} icon={AddIcon} ></Button>
     )

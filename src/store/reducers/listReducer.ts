@@ -8,23 +8,7 @@ export interface IListState {
 
 const initialState: IListState = {
     title: '',
-    list: [
-        {
-            id: 0,
-            description: 'Check out for news',
-            isDone: false,
-        },
-        {
-            id: 1,
-            description: `Fix 'Item' component render`,
-            isDone: true,
-        },
-        {
-            id: 2,
-            description: 'Learn Docker',
-            isDone: false,
-        },
-    ]
+    list: [],
 }
 
 export const listSlice = createSlice({
@@ -34,18 +18,21 @@ export const listSlice = createSlice({
         addItem: (state, action: PayloadAction<IItem>) => {
             state.list.push(action.payload)
         },
-        removeItem: (state, action: PayloadAction<number>) => {
-            state.list = state.list.filter(item => item.id !== action.payload)
+        removeItem: (state, action: PayloadAction<string>) => {
+            state.list = state.list.filter(item => item._id !== action.payload)
         },
         toggleItem: (state, action: PayloadAction<IItem>) => {
-            const item = state.list.find(item => item.id === action.payload.id)
+            const item = state.list.find(item => item._id === action.payload._id)
             if (item) {
                 item.isDone = !action.payload.isDone
             }
         },
+        getList: (state, action: PayloadAction<IItem[]>) => {
+            state.list = action.payload
+        }
     },
 })
 
-export const { addItem, removeItem, toggleItem } = listSlice.actions
+export const { addItem, removeItem, toggleItem, getList } = listSlice.actions
 
 export default listSlice.reducer

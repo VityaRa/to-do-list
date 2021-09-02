@@ -1,5 +1,5 @@
 export interface IItem {
-    readonly id: number,
+    readonly _id: string,
     description: string,
     isDone: boolean,
 }

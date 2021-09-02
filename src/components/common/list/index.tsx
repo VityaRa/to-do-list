@@ -9,7 +9,7 @@ interface IProps {
 export const List = ({ items }: IProps) => {
     return (
         <ul className={style.container}>
-            {items.map((item, index) => <Item key={index} item={item}/>)}
+            {items.map((item) => <Item key={item._id} item={item}/>)}
         </ul>
     )
 }
