@@ -1,6 +1,7 @@
 const express = require("express");
 const MongoClient = require("mongodb").MongoClient;
 const objectId = require("mongodb").ObjectId;
+const cors = require('cors')
 
 const app = express();
 const jsonParser = express.json();
@@ -8,13 +9,13 @@ const jsonParser = express.json();
 const mongoClient = new MongoClient("mongodb+srv://Vityarka:2301some36rand41@cluster0.nlskh.mongodb.net/test-mongo?retryWrites=true&w=majority");
 
 app.use(express.static(__dirname + "/public"));
-
+app.use(cors());
 
 (async () => {
     try {
         await mongoClient.connect();
         app.locals.collection = mongoClient.db("listdb").collection("items");
-        await app.listen(3000);
+        await app.listen(3001);
         console.log("Сервер ожидает подключения...");
     } catch (err) {
         return console.log(err);
@@ -22,7 +23,7 @@ app.use(express.static(__dirname + "/public"));
 })();
 
 
-app.get("/api/item", async (req, res) => {
+app.get("/api/items", async (req, res) => {
 
     const collection = req.app.locals.collection;
     try {
@@ -62,7 +63,7 @@ app.post("/api/item", jsonParser, async (req, res) => {
     catch (err) { return console.log(err); }
 });
 
-app.delete("/api/users/:id", async (req, res) => {
+app.delete("/api/item/:id", async (req, res) => {
 
     const id = new objectId(req.params.id);
     const collection = req.app.locals.collection;
