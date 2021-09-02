@@ -2,7 +2,7 @@ import classNames from "classnames";
 import { useDispatch } from "react-redux";
 import { addItem, removeItem, toggleItem } from "../../../store/reducers/listReducer";
 import { IItem } from "../../../types/interfaces"
-import { Button } from "../button"
+import { Button, DoneButton, RemoveButton } from "../button"
 import style from "./style.module.scss"
 
 interface IProps {
@@ -37,9 +37,9 @@ export const Item = ({ item }: IProps) => {
                 <div className={style.text_wrapper}>
                     <p>{item.description}</p>
                 </div>
-                <Button onClick={add_item} />
-                <Button onClick={toggle_item} />
-                <Button onClick={remove_item} />
+                {/* <Button onClick={add_item} /> */}
+                <DoneButton onClick={toggle_item}/>
+                <RemoveButton onClick={remove_item} />
             </div>
         </li>
     )

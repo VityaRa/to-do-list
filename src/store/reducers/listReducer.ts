@@ -35,7 +35,7 @@ export const listSlice = createSlice({
             state.list.push(action.payload)
         },
         removeItem: (state, action: PayloadAction<number>) => {
-            state.list.filter(item => item.id !== action.payload)
+            state.list = state.list.filter(item => item.id !== action.payload)
         },
         toggleItem: (state, action: PayloadAction<IItem>) => {
             const item = state.list.find(item => item.id === action.payload.id)

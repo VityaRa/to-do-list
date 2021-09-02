@@ -1,4 +1,6 @@
 import classNames from "classnames"
+import { AddIcon } from "../../../assets/AddIcon"
+import { DoneIcon } from "../../../assets/DoneIcon"
 import { IItem } from "../../../types/interfaces"
 import { ButtonType } from "../../../utils/enums"
 import style from "./style.module.scss"
@@ -26,8 +28,22 @@ export const Button = ({ onClick, type, icon }: IButton) => {
     )
 }
 
-export const RemoveButton = () => {
+export const DoneButton = ({onClick}: Partial<IButton>) => {
     return (
-        <Button type={ButtonType.DONE} onClick={() => {}} ></Button>
+        <Button type={ButtonType.DONE} onClick={onClick} icon={DoneIcon} ></Button>
     )
 }
+
+export const AddButton = (onClick: () => void) => {
+    return (
+        <Button type={ButtonType.ADD} onClick={onClick} icon={AddIcon} ></Button>
+    )
+}
+
+export const RemoveButton = ({onClick}: Partial<IButton>) => {
+    return (
+        <Button type={ButtonType.REMOVE} onClick={onClick} icon={AddIcon} ></Button>
+    )
+}
+
+
