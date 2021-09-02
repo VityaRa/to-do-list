@@ -11,17 +11,17 @@ const initialState: IListState = {
     list: [
         {
             id: 0,
-            description: 'GO',
+            description: 'Check out for news',
             isDone: false,
         },
         {
             id: 1,
-            description: 'STOP',
+            description: `Fix 'Item' component render`,
             isDone: true,
         },
         {
             id: 2,
-            description: 'WTF',
+            description: 'Learn Docker',
             isDone: false,
         },
     ]

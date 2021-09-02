@@ -1,6 +1,8 @@
+@import "../../mixins/colors.module.scss";
+
 .container {
     width: 100%;
-    background-color: bisque;
+    background-color: $background-light;
     & .wrapper {
         padding: 0 5vw;
         display: flex;

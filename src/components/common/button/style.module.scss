@@ -13,12 +13,24 @@ $btn-size: 40px;
 
     }
     &.done {
-
+        & svg {
+            left: -4px;
+        }
     }
     &.remove {
-        
+        transform: rotate(45deg);
     }
     &.add {
         
+    }
+}
+
+.icon_wrapper {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+    & svg {
+        position: relative;
     }
 }

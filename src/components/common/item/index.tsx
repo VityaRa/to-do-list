@@ -37,7 +37,6 @@ export const Item = ({ item }: IProps) => {
                 <div className={style.text_wrapper}>
                     <p>{item.description}</p>
                 </div>
-                {/* <Button onClick={add_item} /> */}
                 <DoneButton onClick={toggle_item}/>
                 <RemoveButton onClick={remove_item} />
             </div>
