@@ -12,12 +12,13 @@ app.use(express.static(__dirname + "/public"));
 app.use(cors());
 
 const PORT = process.env.PORT || 5000
+const HOST = '0.0.0.0'
 
 (async () => {
     try {
         await mongoClient.connect();
         app.locals.collection = mongoClient.db("listdb").collection("items");
-        await app.listen(PORT);
+        await app.listen(PORT, HOST);
         console.log("Сервер ожидает подключения...");
     } catch (err) {
         return console.log(err);
