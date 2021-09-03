@@ -1,6 +1,5 @@
 import { useDispatch, useSelector } from "react-redux";
 import { api } from "../../api/requests";
-import { loadInitialData } from "../../functions/loadInitialData";
 import { RootState } from "../../store";
 import { Bar } from "../bar";
 import { AddButton } from "../common/button";

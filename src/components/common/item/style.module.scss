@@ -8,10 +8,9 @@
         opacity: 0.5;
     }
     & .inner {
-        background-color: rgba(255,255,255,.3);
+        background-color: rgba(255, 255, 255, 0.3);
         border-radius: 50px;
         padding: 5px;
-        max-width: 500px;
         width: 100%;
         display: flex;
         justify-content: space-between;
@@ -22,3 +21,4 @@
         }
     }
 }
+

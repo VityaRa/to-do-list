@@ -1,7 +1,7 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useDispatch } from "react-redux";
 import { api } from "../../api/requests";
-import { loadInitialData } from "../../functions/loadInitialData";
+import { addItem } from "../../store/reducers/listReducer";
 import { AddButton } from "../common/button";
 import style from "./style.module.scss";
 
@@ -9,32 +9,27 @@ export const Bar = () => {
   const dispatch = useDispatch();
   const [value, setValue] = useState("");
   const [isFocused, setIsFocused] = useState(false);
+  const ref = useRef<any>(null);
 
   const addItemHandler = async () => {
     if (value.trim() !== "") {
-      await api.addItem(value);
-      await loadInitialData(dispatch);
-      setValue('')
+      const ans = await api.addItem(value);
+      dispatch(addItem(ans.data))
+      setValue("");
+      ref.current.blur()
     }
   };
 
-  useEffect(() => {
-    const handleFocus = (e: KeyboardEvent) => {
-      if (isFocused && e.key === 'Enter') {
-        addItemHandler()
-      }
+  const handleKeyDown = (event: any) => {
+    if (event.key === "Enter" && isFocused) {
+      addItemHandler();
     }
-
-    window.addEventListener('keypress', handleFocus)
-    return (() => {
-      window.removeEventListener('keypress', handleFocus)
-    })
-
-  }, [isFocused])
+  };
 
   return (
     <div className={style.container}>
       <input
+        ref={ref}
         className={style.input}
         type="text"
         placeholder={"Введите задание..."}
@@ -46,6 +41,7 @@ export const Bar = () => {
         onFocus={() => {
           setIsFocused(true);
         }}
+        onKeyDown={handleKeyDown}
       />
       <AddButton onClick={addItemHandler} />
     </div>

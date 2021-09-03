@@ -10,3 +10,9 @@
         margin-top: 20px;
     }
 }
+
+@media screen and (max-width: 500px) {
+    .content {
+        max-width: 300px;
+    }
+}

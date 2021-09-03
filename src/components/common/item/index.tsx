@@ -1,7 +1,6 @@
 import classNames from "classnames";
 import { useDispatch } from "react-redux";
 import { api } from "../../../api/requests";
-import { loadInitialData } from "../../../functions/loadInitialData";
 import {
   addItem,
   removeItem,
@@ -21,13 +20,11 @@ export const Item = ({ item }: IProps) => {
   const toggle_item = async () => {
     await api.toggleItem(item._id, item.isDone);
     dispatch(toggleItem(item));
-    await loadInitialData(dispatch);
   };
 
   const remove_item = async () => {
     await api.removeItem(item._id);
     dispatch(removeItem(item._id));
-    await loadInitialData(dispatch);
   };
 
   return (
