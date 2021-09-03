@@ -4,4 +4,9 @@
     height: 100%;
     @include flex-center();
     flex-direction: column;
+    max-width: 500px;
+    margin: auto;
+    & .empty_text {
+        margin-top: 20px;
+    }
 }

@@ -1,0 +1,15 @@
+@import '../../mixins/style.module.scss';
+
+.container {
+    width: 100%;
+    @include flex-center();
+    & .input {
+        margin-right: 40px;
+        height: 40px;
+        border-radius: 100px;
+        padding-left: 10px;
+        padding-right: 50px;
+        color: #000;
+        font-size: 14px;
+    }
+}

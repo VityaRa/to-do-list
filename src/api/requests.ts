@@ -11,5 +11,8 @@ export const api = {
   },
   removeItem: async (id: string) => {
     return axios.delete(`${BASE_URL}/api/item/${id}`);
+  },
+  toggleItem: async (id: string, isDone: boolean) => {
+    return axios.put(`${BASE_URL}/api/item/status`, { id, isDone: !isDone });
   }
 };
