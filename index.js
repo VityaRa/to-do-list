@@ -11,13 +11,13 @@ const mongoClient = new MongoClient("mongodb+srv://Vityarka:2301some36rand41@clu
 app.use(express.static(__dirname + "/public"));
 app.use(cors());
 
-const port = process.env.PORT || 5000
+const port = process.env.PORT || 3001;
 
 (async () => {
     try {
         await mongoClient.connect();
         app.locals.collection = mongoClient.db("listdb").collection("items");
-        app.listen(port, '0.0.0.0', () => {
+        app.listen(port, () => {
             console.log("Сервер ожидает подключения...");
         })
 
@@ -28,7 +28,6 @@ const port = process.env.PORT || 5000
 
 
 app.get("/api/items", async (req, res) => {
-
     const collection = req.app.locals.collection;
     try {
         const items = await collection.find({}).toArray();
@@ -102,8 +101,6 @@ app.put("/api/item/status", jsonParser, async (req, res) => {
     const id = new objectId(req.body.id);
 
     const { isDone } = req.body
-    if (!isDone) res.sendStatus(400);
-
     const collection = req.app.locals.collection;
     try {
         const result = await collection.findOneAndUpdate({ _id: id }, { $set: { isDone } },
