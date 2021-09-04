@@ -1,9 +1,11 @@
 import { Action, configureStore, ThunkAction } from '@reduxjs/toolkit'
 import listReducer from './reducers/listReducer'
+import modalReducer from './reducers/modalReducer'
 
 export const store = configureStore({
   reducer: {
     list: listReducer,
+    modal: modalReducer,
   },
 })
 

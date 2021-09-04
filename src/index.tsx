@@ -1,5 +1,3 @@
-//@ts-nocheck
-
 import React, { lazy, Suspense } from "react";
 import ReactDOM from "react-dom";
 import * as serviceWorkerRegistration from "./serviceWorkerRegistration";

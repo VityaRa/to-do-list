@@ -1,18 +1,19 @@
 import { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 import "./App.scss"
+import { Modal } from "./components/common/modal";
 import { Content } from "./components/content";
 import { Header } from "./components/header";
+import { isRegister } from "./functions/isRegister";
 import { loadInitialData } from "./functions/loadInitialData";
 
 const App = () => {
   const dispatch = useDispatch();
-  const [isLoaded, setIsLoaded] = useState(false)
 
   useEffect(() => {
     loadInitialData(dispatch)
   }, [])
-  
+
   
 
   return (
@@ -20,6 +21,7 @@ const App = () => {
       <Header></Header>
       <Content></Content>
       {/* <Sidebar></Sidebar> */}
+      {!isRegister() && <Modal/>}
     </div>
   );
 }
