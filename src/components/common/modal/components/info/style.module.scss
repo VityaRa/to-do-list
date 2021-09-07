@@ -1,0 +1,24 @@
+.container {
+    height: 100%;
+    & .title {
+        position: relative;
+        z-index: 9999;
+    }
+    & .textarea {
+        color: #000000;
+        margin-top: 20px;
+        width: 100%;
+        max-height: 100px;
+        padding: 10px;
+        font-size: 18px;
+    }
+    & .button_container {
+        margin-top: 20px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+    & .submit_btn {
+        margin-top: 10px;
+    }
+}

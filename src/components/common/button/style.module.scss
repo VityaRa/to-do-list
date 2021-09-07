@@ -24,6 +24,17 @@ $btn-size: 40px;
     &.add {
         
     }
+    &.submit {
+        font-size: 20px;
+        width: 50%;
+        border-radius: 10px;
+        background-color: #fff;
+        color: #000;
+        &:hover {
+            background-color: #000;
+            color: #fff;
+        }
+    }
 }
 
 .icon_wrapper {

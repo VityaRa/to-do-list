@@ -15,7 +15,7 @@
 
         min-width: 400px;
         min-height: 300px;
-        background-color: rgba(100,100,100,1);
+        background-color: #1E1E1E;
         padding: 30px;
         display: flex;
         flex-direction: column;
@@ -27,11 +27,15 @@
         height: 25px;
         cursor: pointer;
         outline: none;
-        background-color: #000;
+        background-color: #fff;
         border: 0;
+        border-radius: 50%;
+        z-index: 0;
     }
     & .btn_container {
+        position: absolute;
         display: flex;
         justify-content: flex-end;
+        width: calc(100% - 50px);
     }
 }

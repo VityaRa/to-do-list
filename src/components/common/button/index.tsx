@@ -9,20 +9,25 @@ interface IButton {
     onClick?: () => void,
     icon?: JSX.Element,
     type?: ButtonType,
+    text?: string,
 }
 
-export const Button = ({ onClick, type, icon }: IButton) => {
+export const Button = ({ onClick, type, icon, text }: IButton) => {
     return (
         <button name={type} onClick={onClick} className={classNames(style.container, {
             [style.done]: type === ButtonType.DONE,
             [style.remove]: type === ButtonType.REMOVE,
             [style.add]: type === ButtonType.ADD,
+            [style.submit]: type === ButtonType.SUBMIT,
         })}>
             {
                 icon &&
                 <div className={style.icon_wrapper}>
                     {icon}
                 </div>
+            }
+            {
+                text
             }
         </button>
     )
@@ -43,6 +48,12 @@ export const AddButton = ({onClick}: Partial<IButton>) => {
 export const RemoveButton = ({onClick}: Partial<IButton>) => {
     return (
         <Button type={ButtonType.REMOVE} onClick={onClick} icon={AddIcon} ></Button>
+    )
+}
+
+export const SubmitButton = ({onClick, text}: Partial<IButton>) => {
+    return (
+        <Button type={ButtonType.SUBMIT} onClick={onClick} text={text}></Button>
     )
 }
 
