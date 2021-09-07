@@ -14,5 +14,8 @@ export const api = {
   },
   toggleItem: async (id: string, isDone: boolean) => {
     return axios.put(`${BASE_URL}/api/item/status`, { id, isDone: !isDone });
-  }
+  },
+  updateDescription: async (id: string, description: string) => {
+    return axios.put(`${BASE_URL}/api/item/desc`, { id, description })
+  },
 };
