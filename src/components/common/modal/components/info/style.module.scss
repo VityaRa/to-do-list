@@ -2,6 +2,7 @@
     height: 100%;
     & .title {
         position: relative;
+        z-index: 1;
     }
     & .textarea {
         color: #000000;
