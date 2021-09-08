@@ -1,4 +1,4 @@
-const CACHE_NAME = 'pwa-task-manager';
+const CACHE_NAME = 'to-do-v1';
 const urlsToCache = [
     '/',
 ];
