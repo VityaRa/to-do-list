@@ -1,9 +1,10 @@
-import style from "./style.module.scss"
+import { useSelector } from "react-redux";
+import { RootState } from "../../store";
+import style from "./style.module.scss";
 
 export const Sidebar = () => {
-    return (
-        <div>
-            
-        </div>
-    )
-}
+  const { isOpen } = useSelector((state: RootState) => state.sidebar);
+  return <aside className={isOpen ? style.active : ""}>
+
+  </aside>;
+};

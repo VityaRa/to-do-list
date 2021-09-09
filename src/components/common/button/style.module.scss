@@ -34,6 +34,8 @@ $btn-size: 40px;
         }
     }
     &.sidebar {
+        z-index: 9999;
+
         position: absolute;
         right: 20px;
         background-color: transparent;

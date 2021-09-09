@@ -25,7 +25,7 @@ const App = () => {
     <div className="App">
       <Header></Header>
       <Content></Content>
-      {isOpenedSidebar && <Sidebar/>}
+      <Sidebar/>
       {isOpenedModal && <Modal />}
     </div>
   );
