@@ -10,7 +10,6 @@ $btn-size: 40px;
     border: 0;
     cursor: pointer;
     &:hover {
-
     }
     &.done {
         margin-right: 10px;
@@ -22,7 +21,6 @@ $btn-size: 40px;
         transform: rotate(45deg);
     }
     &.add {
-        
     }
     &.submit {
         font-size: 20px;
@@ -34,6 +32,11 @@ $btn-size: 40px;
             background-color: #000;
             color: #fff;
         }
+    }
+    &.sidebar {
+        position: absolute;
+        right: 20px;
+        background-color: transparent;
     }
 }
 

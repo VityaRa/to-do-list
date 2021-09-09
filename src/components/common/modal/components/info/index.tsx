@@ -58,7 +58,7 @@ export const Info = ({ item }: IProps) => {
         ref={ref}
       ></textarea>
       <div className={style.submit_btn}>
-        <SubmitButton text={"Сохранить"} onClick={() => updateDesc()} />
+        <SubmitButton content={"Сохранить"} onClick={() => updateDesc()} />
       </div>
       <div className={style.button_container}>
         <DoneButton onClick={toggle_item} />

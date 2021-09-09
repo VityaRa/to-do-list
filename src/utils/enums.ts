@@ -3,4 +3,5 @@ export enum ButtonType {
     DONE = "DONE",
     ADD = "ADD",
     SUBMIT = "SUBMIT",
+    SIDEBAR = "SIDEBAR"
 }
