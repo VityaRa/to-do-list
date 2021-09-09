@@ -48,11 +48,16 @@ export const Item = ({ item }: IProps) => {
         </div>
         <DoneButton
           onClick={(e) => {
-            e.stopPropagation()
+            e.stopPropagation();
             toggle_item();
           }}
         />
-        <RemoveButton onClick={remove_item} />
+        <RemoveButton
+          onClick={(e) => {
+            e.stopPropagation();
+            remove_item();
+          }}
+        />
       </div>
     </li>
   );
