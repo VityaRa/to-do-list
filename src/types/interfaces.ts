@@ -3,3 +3,8 @@ export interface IItem {
     description: string,
     isDone: boolean,
 }
+
+export interface IList {
+    readonly _id: string,
+    title: string,
+}

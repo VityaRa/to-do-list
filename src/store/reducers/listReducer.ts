@@ -1,14 +1,18 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { IItem } from "../../types/interfaces";
+import { IItem, IList } from "../../types/interfaces";
 
 export interface IListState {
   title: string;
   list: IItem[];
+  sidebarList: IList[],
+  activeListId: string,
 }
 
 const initialState: IListState = {
   title: "",
-  list: []
+  list: [],
+  sidebarList: [],
+  activeListId: '',
 };
 
 export const listSlice = createSlice({
