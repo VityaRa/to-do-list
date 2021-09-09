@@ -3,11 +3,13 @@ import listReducer from "./reducers/listReducer";
 import modalReducer from "./reducers/modalReducer";
 import thunk from 'redux-thunk';
 import logger from 'redux-logger'
+import sidebarReducer from "./reducers/sidebarReducer";
 
 export const store = configureStore({
   reducer: {
     list: listReducer,
-    modal: modalReducer
+    modal: modalReducer,
+    sidebar: sidebarReducer,
   },
   middleware: [thunk, logger]
 });

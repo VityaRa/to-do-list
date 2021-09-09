@@ -14,7 +14,7 @@ const initialState: IModalState = {
   onClose: () => {},
 };
 
-export const listSlice = createSlice({
+export const modalSlice = createSlice({
   name: "modal",
   initialState,
   reducers: {
@@ -25,10 +25,9 @@ export const listSlice = createSlice({
       state.content = action.payload;
     },
     cleanModal: () => initialState,
-    
   }
 });
 
-export const { toggleModal, setModal, cleanModal } = listSlice.actions;
+export const { toggleModal, setModal, cleanModal } = modalSlice.actions;
 
-export default listSlice.reducer;
+export default modalSlice.reducer;

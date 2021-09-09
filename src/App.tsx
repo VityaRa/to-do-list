@@ -8,7 +8,6 @@ import { Header } from "./components/header";
 import { isRegister } from "./functions/isRegister";
 import { loadInitialData } from "./functions/loadInitialData";
 import { RootState } from "./store";
-import { setModal } from "./store/reducers/modalReducer";
 
 const App = () => {
   const dispatch = useDispatch();
