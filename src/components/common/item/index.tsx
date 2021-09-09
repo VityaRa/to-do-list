@@ -31,9 +31,9 @@ export const Item = ({ item }: IProps) => {
   };
 
   const openInfoModal = () => {
-    dispatch(setModal(<Info item={item}/>))
-    dispatch(toggleModal(true))
-  }
+    dispatch(setModal(<Info item={item} />));
+    dispatch(toggleModal(true));
+  };
 
   return (
     <li
@@ -46,7 +46,12 @@ export const Item = ({ item }: IProps) => {
         <div className={style.text_wrapper}>
           <p>{item.description}</p>
         </div>
-        <DoneButton onClick={toggle_item} />
+        <DoneButton
+          onClick={(e) => {
+            e.stopPropagation()
+            toggle_item();
+          }}
+        />
         <RemoveButton onClick={remove_item} />
       </div>
     </li>

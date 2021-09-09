@@ -6,7 +6,7 @@ import { ButtonType } from "../../../utils/enums"
 import style from "./style.module.scss"
 
 interface IButton {
-    onClick?: () => void,
+    onClick?: (e: any) => void,
     icon?: JSX.Element,
     type?: ButtonType,
     text?: string,
