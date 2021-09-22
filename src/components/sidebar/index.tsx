@@ -32,9 +32,12 @@ export const Sidebar = () => {
     }
   });
 
-  const itemClickHandler = (item: IList) => {
-    setMainList(dispatch, item);
-    Cookies.set(_COOKIES_ACTIVE_LIST_ID, item._id);
+  const itemClickHandler = async (item: IList) => {
+    if (item._id !== activeListId) {
+      const res = await listApi.getListById(item._id)
+      setMainList(dispatch, res.data[0]);
+      Cookies.set(_COOKIES_ACTIVE_LIST_ID, item._id);
+    }
     dispatch(toggleSidebar());
   };
 
