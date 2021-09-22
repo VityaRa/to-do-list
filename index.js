@@ -32,89 +32,7 @@ const port = process.env.PORT || 3001;
 })();
 
 
-app.get("/api/items", async (req, res) => {
-    const collection = req.app.locals.collection.collection("items");
-    try {
-        const items = await collection.find({}).toArray();
-        res.send(items);
-    }
-    catch (err) { return console.log(err); }
 
-});
-
-app.get("/api/users/:id", async (req, res) => {
-
-    const id = new objectId(req.params.id);
-    const collection = req.app.locals.collection.collection("items");
-    try {
-        const user = await collection.findOne({ _id: id });
-        res.send(user);
-    }
-    catch (err) { return console.log(err); }
-});
-
-app.post("/api/item", jsonParser, async (req, res) => {
-
-    if (!req.body) return res.sendStatus(400);
-
-    const { description } = req.body
-    if (!description) res.sendStatus(400);
-
-    const item = { description, isDone: false };
-
-    const collection = req.app.locals.collection.collection("items");
-
-    try {
-        await collection.insertOne(item);
-        res.send(item);
-    }
-    catch (err) { return console.log(err); }
-});
-
-app.delete("/api/item/:id", async (req, res) => {
-    const id = new objectId(req.params.id);
-    const collection = req.app.locals.collection.collection("items");
-    try {
-        const result = await collection.findOneAndDelete({ _id: id });
-        const item = result.value;
-        res.send(item);
-    }
-    catch (err) { return console.log(err); }
-});
-
-app.put("/api/item/desc", jsonParser, async (req, res) => {
-
-    if (!req.body) return res.sendStatus(400);
-    const id = new objectId(req.body.id);
-
-    const { description } = req.body
-    if (!description) res.sendStatus(400);
-
-    const collection = req.app.locals.collection.collection("items");
-    try {
-        const result = await collection.findOneAndUpdate({ _id: id }, { $set: { description } },
-            { returnDocument: "after" });
-        const item = result.value;
-        res.send(item);
-    }
-    catch (err) { return console.log(err); }
-});
-
-app.put("/api/item/status", jsonParser, async (req, res) => {
-
-    if (!req.body) return res.sendStatus(400);
-    const id = new objectId(req.body.id);
-
-    const { isDone } = req.body
-    const collection = req.app.locals.collection.collection("items");
-    try {
-        const result = await collection.findOneAndUpdate({ _id: id }, { $set: { isDone } },
-            { returnDocument: "after" });
-        const item = result.value;
-        res.send(item);
-    }
-    catch (err) { return console.log(err); }
-});
 
 app.post("/api/register", jsonParser, async (req, res) => {
     try {
@@ -153,7 +71,7 @@ app.post("/api/register", jsonParser, async (req, res) => {
     }
 });
 
-app.post("/api/login", async (req, res) => {
+app.post("/api/login", jsonParser, async (req, res) => {
 
     try {
 
@@ -187,10 +105,223 @@ app.post("/api/login", async (req, res) => {
     }
 });
 
+//get all lists
+app.get("/api/list", jsonParser, async (req, res) => {
+    const collection = req.app.locals.collection.collection("lists");
+    try {
+        const items = await collection.find({}).toArray();
+        res.send(items);
+    }
+    catch (err) { return console.log(err); }
+});
 
+//get list by id
+app.get("/api/list/:id", jsonParser, async (req, res) => {
+    const collection = req.app.locals.collection.collection("lists");
+    const id = new objectId(req.params.id);
+
+    try {
+        const items = await collection.find({ _id: id }).toArray();
+        res.send(items);
+    }
+    catch (err) { return console.log(err); }
+});
+
+//create new list instance
+app.post("/api/list", jsonParser, async (req, res) => {
+    if (!req.body) return res.sendStatus(400);
+
+    const { title } = req.body
+    if (!title) res.sendStatus(400);
+
+
+
+    const newList = { title, items: [] }
+    const collection = req.app.locals.collection.collection("lists");
+
+    try {
+        await collection.insertOne(newList);
+        res.send(newList);
+    }
+
+    catch (err) { return console.log(err); }
+});
+
+//remove list by id
+app.delete("/api/list/:id", jsonParser, async (req, res) => {
+    const id = new objectId(req.params.id);
+    const collection = req.app.locals.collection.collection("lists");
+    try {
+        const result = await collection.findOneAndDelete({ _id: id });
+        const item = result.value;
+        res.send(item);
+    }
+    catch (err) { return console.log(err); }
+});
+
+//add task in specific list
+app.put("/api/list/", jsonParser, async (req, res) => {
+    const collection = req.app.locals.collection.collection("lists");
+    const { description } = req.body
+
+    if (!description) res.send(400)
+    const id = new objectId(req.body.id);
+
+    const newItem = {
+        description, isDone: false, _id: new objectId()
+    }
+
+    try {
+        const result = await collection.findOneAndUpdate({ _id: id }, { $push: { items: newItem } },
+            { returnDocument: "after" });
+        res.send(newItem);
+    }
+    catch (err) { return console.log(err); }
+});
+
+//remove item from list
+app.put("/api/list/:id/:itemId", jsonParser, async (req, res) => {
+    const id = new objectId(req.params.id);
+    const itemId = new objectId(req.params.itemId);
+
+    const collection = req.app.locals.collection.collection("lists");
+    try {
+        const result = await collection.findOneAndUpdate({ _id: id }, { $pull: { items: { itemId } } }, { returnDocument: "after" });
+        const item = result.value;
+        res.send(item);
+    }
+    catch (err) { return console.log(err); }
+});
+
+//update description
+app.put("/api/list/desc", jsonParser, async (req, res) => {
+
+    if (!req.body) return res.sendStatus(400);
+
+    const id = new objectId(req.body.id);
+    const itemId = new objectId(req.body.itemId);
+
+    const { description } = req.body
+    if (!description || !id || !itemId) res.sendStatus(400);
+
+    const collection = req.app.locals.collection.collection("lists");
+    try {
+        const result = await collection.findOneAndUpdate({ _id: id, "items._id": itemId }, { $set: { "items.$.description": description } }, { returnDocument: "after" });
+        const list = result.value;
+        res.send(list.items.find(elem => elem._id.equals(itemId)))
+    }
+    catch (err) { return console.log(err); }
+});
+
+//update status
+app.put("/api/list/status", jsonParser, async (req, res) => {
+
+    if (!req.body) return res.sendStatus(400);
+
+    const id = new objectId(req.body.id);
+    const itemId = new objectId(req.body.itemId);
+
+    const { isDone } = req.body
+    if (!id || !itemId) res.sendStatus(400);
+
+    const collection = req.app.locals.collection.collection("lists");
+    try {
+        const result = await collection.findOneAndUpdate({ _id: id, "items._id": itemId }, { $set: { "items.$.isDone": isDone } }, { returnDocument: "after" });
+        const list = result.value;
+        res.send(list.items.find(elem => elem._id.equals(itemId)))
+    }
+    catch (err) { return console.log(err); }
+});
+
+//START NEW VERSION (CURRENTLY ACTIVE)
+
+//get all tasks
+// app.get("/api/items", jsonParser, async (req, res) => {
+//     const collection = req.app.locals.collection.collection("items");
+//     try {
+//         const items = await collection.find({}).toArray();
+//         res.send(items);
+//     }
+//     catch (err) { return console.log(err); }
+// });
+
+// app.get("/api/users/:id", async (req, res) => {
+
+//     const id = new objectId(req.params.id);
+//     const collection = req.app.locals.collection.collection("items");
+//     try {
+//         const user = await collection.findOne({ _id: id });
+//         res.send(user);
+//     }
+//     catch (err) { return console.log(err); }
+// });
+
+// app.post("/api/item", jsonParser, async (req, res) => {
+
+//     if (!req.body) return res.sendStatus(400);
+
+//     const { description } = req.body
+//     if (!description) res.sendStatus(400);
+
+//     const item = { description, isDone: false };
+
+//     const collection = req.app.locals.collection.collection("items");
+
+//     try {
+//         await collection.insertOne(item);
+//         res.send(item);
+//     }
+//     catch (err) { return console.log(err); }
+// });
+
+// app.delete("/api/item/:id", async (req, res) => {
+//     const id = new objectId(req.params.id);
+//     const collection = req.app.locals.collection.collection("items");
+//     try {
+//         const result = await collection.findOneAndDelete({ _id: id });
+//         const item = result.value;
+//         res.send(item);
+//     }
+//     catch (err) { return console.log(err); }
+// });
+
+// app.put("/api/item/desc", jsonParser, async (req, res) => {
+
+//     if (!req.body) return res.sendStatus(400);
+//     const id = new objectId(req.body.id);
+
+//     const { description } = req.body
+//     if (!description) res.sendStatus(400);
+
+//     const collection = req.app.locals.collection.collection("items");
+//     try {
+//         const result = await collection.findOneAndUpdate({ _id: id }, { $set: { description } },
+//             { returnDocument: "after" });
+//         const item = result.value;
+//         res.send(item);
+//     }
+//     catch (err) { return console.log(err); }
+// });
+
+// app.put("/api/item/status", jsonParser, async (req, res) => {
+
+//     if (!req.body) return res.sendStatus(400);
+//     const id = new objectId(req.body.id);
+
+//     const { isDone } = req.body
+//     const collection = req.app.locals.collection.collection("items");
+//     try {
+//         const result = await collection.findOneAndUpdate({ _id: id }, { $set: { isDone } },
+//             { returnDocument: "after" });
+//         const item = result.value;
+//         res.send(item);
+//     }
+//     catch (err) { return console.log(err); }
+// });
+
+//END OLD VERSION
 
 process.on("SIGINT", async () => {
-
     await mongoClient.close();
     console.log("Приложение завершило работу");
     process.exit();
