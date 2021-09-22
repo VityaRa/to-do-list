@@ -164,7 +164,7 @@ app.put("/api/list/", jsonParser, async (req, res) => {
     const collection = req.app.locals.collection.collection("lists");
     const { description } = req.body
 
-    if (!description) res.send(400)
+    if (!description) res.sendStatus(400)
     const id = new objectId(req.body.id);
 
     const newItem = {
@@ -229,6 +229,24 @@ app.put("/api/list/status", jsonParser, async (req, res) => {
         const result = await collection.findOneAndUpdate({ _id: id, "items._id": itemId }, { $set: { "items.$.isDone": isDone } }, { returnDocument: "after" });
         const list = result.value;
         res.send(list.items.find(elem => elem._id.equals(itemId)))
+    }
+    catch (err) { return console.log(err); }
+});
+
+//update title
+app.put("/api/list/title", jsonParser, async (req, res) => {
+    const collection = req.app.locals.collection.collection("lists");
+    const { title, id } = req.body
+
+    if (!title || !id) res.sendStatus(400)
+
+    const _id = new objectId(req.body.id);
+
+    try {
+        const result = await collection.findOneAndUpdate({ _id }, { $set: { title } },
+            { returnDocument: "after" });
+        console.log(result.value);
+        res.send({title: result.value.title, _id: result.value._id, items: []});
     }
     catch (err) { return console.log(err); }
 });
