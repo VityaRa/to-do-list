@@ -25,12 +25,12 @@ export const Info = ({ item }: IProps) => {
   const ref = useRef<any>(null);
 
   const toggle_item = async () => {
-    await api.toggleItem(item._id, item.isDone);
+    await listApi.updateItemStatus(activeListId, item._id, !item.isDone)
     dispatch(toggleItem(item));
   };
 
   const remove_item = async () => {
-    await api.removeItem(item._id);
+    await listApi.removeItemFromList(activeListId, item._id);
     dispatch(removeItem(item._id));
     dispatch(cleanModal());
   };

@@ -45,5 +45,8 @@ export const listApi = {
   },
   updateItemStatus: async (id: string, itemId: string, isDone: boolean) => {
     return INSTANCE.put(`/list/status`, { id, itemId, isDone });
+  },
+  updateListTitle: async (id: string, title: string) => {
+    return INSTANCE.put(`/list/title`, { id, title });
   }
 };

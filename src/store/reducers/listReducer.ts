@@ -50,11 +50,21 @@ export const listSlice = createSlice({
       state.activeListId = action.payload;
     },
     removeSidebarItem: (state, action: PayloadAction<IList>) => {
-      state.sidebarList = state.sidebarList.filter((item) => item._id !== action.payload._id);
+      state.sidebarList = state.sidebarList.filter(
+        (item) => item._id !== action.payload._id
+      );
     },
     addSidebarItem: (state, action: PayloadAction<IList>) => {
       state.sidebarList.push(action.payload);
     },
+    updateSidebarItem: (state, action: PayloadAction<IList>) => {
+      const item = state.sidebarList.find(
+        (item) => item._id === action.payload._id
+      );
+      if (item) {
+        item.title = action.payload.title;
+      }
+    }
   }
 });
 
@@ -68,7 +78,8 @@ export const {
   setSidebarList,
   removeSidebarItem,
   addSidebarItem,
-  setActiveListId
+  setActiveListId,
+  updateSidebarItem
 } = listSlice.actions;
 
 export default listSlice.reducer;

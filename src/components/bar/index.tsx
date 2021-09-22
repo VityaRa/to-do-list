@@ -1,7 +1,4 @@
 import { useEffect, useRef, useState } from "react";
-import { useDispatch } from "react-redux";
-import { api } from "../../api/requests";
-import { addItem } from "../../store/reducers/listReducer";
 import { AddButton } from "../common/button";
 import style from "./style.module.scss";
 

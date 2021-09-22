@@ -4,7 +4,6 @@ import { api, listApi } from "../../../api/requests";
 import { removeAsync } from "../../../functions/isRegister";
 import { RootState } from "../../../store";
 import {
-  addItem,
   removeItem,
   toggleItem
 } from "../../../store/reducers/listReducer";
