@@ -2,18 +2,28 @@ import classNames from "classnames";
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { listApi } from "../../api/requests";
+import { setMainList } from "../../functions/setMainList";
 import { useOutsideClick } from "../../hooks/useOutsideClick";
 import { RootState } from "../../store";
-import { addSidebarItem, removeSidebarItem, setActiveListId, setSidebarList } from "../../store/reducers/listReducer";
+import {
+  addSidebarItem,
+  removeSidebarItem,
+  setActiveListId,
+  setSidebarList
+} from "../../store/reducers/listReducer";
 import { toggleSidebar } from "../../store/reducers/sidebarReducer";
 import { IList } from "../../types/interfaces";
 import { Bar } from "../bar";
 import { AddButton, RemoveButton } from "../common/button";
 import style from "./style.module.scss";
+import Cookies from "js-cookie";
+import { _COOKIES_ACTIVE_LIST_ID } from "../../utils/constants";
 
 export const Sidebar = () => {
   const { isOpen } = useSelector((state: RootState) => state.sidebar);
-  const { sidebarList, activeListId } = useSelector((state: RootState) => state.list);
+  const { sidebarList, activeListId } = useSelector(
+    (state: RootState) => state.list
+  );
   const dispatch = useDispatch();
 
   const ref = useOutsideClick(() => {
@@ -23,19 +33,20 @@ export const Sidebar = () => {
   });
 
   const itemClickHandler = (item: IList) => {
-    dispatch(setActiveListId(item))
+    setMainList(dispatch, item);
+    Cookies.set(_COOKIES_ACTIVE_LIST_ID, item._id);
     dispatch(toggleSidebar());
   };
 
   const createListHandler = async (title: string) => {
     const res = await listApi.createList(title);
-    dispatch(addSidebarItem(res.data))
+    dispatch(addSidebarItem(res.data));
   };
 
   const removeListItem = async (item: IList) => {
-    const res = await listApi.removeList(item._id)
-    dispatch(removeSidebarItem(item))
-  }
+    const res = await listApi.removeList(item._id);
+    dispatch(removeSidebarItem(item));
+  };
 
   return (
     <aside className={isOpen ? style.active : ""} ref={ref}>
@@ -58,7 +69,12 @@ export const Sidebar = () => {
               onClick={() => itemClickHandler(item)}
             >
               <p className={style.text}>{item.title}</p>
-              <RemoveButton onClick={(e) => {removeListItem(item); e.stopPropagation()}} />
+              <RemoveButton
+                onClick={(e) => {
+                  removeListItem(item);
+                  e.stopPropagation();
+                }}
+              />
             </li>
           );
         })}

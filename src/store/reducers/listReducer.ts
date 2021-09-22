@@ -45,10 +45,9 @@ export const listSlice = createSlice({
     },
     setSidebarList: (state, action: PayloadAction<IList[]>) => {
       state.sidebarList = action.payload;
-      state.activeListId = action.payload[0]._id;
     },
-    setActiveListId: (state, action: PayloadAction<IList>) => {
-      state.activeListId = action.payload._id;
+    setActiveListId: (state, action: PayloadAction<string>) => {
+      state.activeListId = action.payload;
     },
     removeSidebarItem: (state, action: PayloadAction<IList>) => {
       state.sidebarList = state.sidebarList.filter((item) => item._id !== action.payload._id);

@@ -1,7 +1,8 @@
 import classNames from "classnames";
-import { useDispatch } from "react-redux";
-import { api } from "../../../api/requests";
+import { useDispatch, useSelector } from "react-redux";
+import { api, listApi } from "../../../api/requests";
 import { removeAsync } from "../../../functions/isRegister";
+import { RootState } from "../../../store";
 import {
   addItem,
   removeItem,
@@ -19,6 +20,7 @@ interface IProps {
 
 export const Item = ({ item }: IProps) => {
   const dispatch = useDispatch();
+  const {activeListId} = useSelector((state: RootState) => state.list)
 
   const toggle_item = async () => {
     await api.toggleItem(item._id, item.isDone);
@@ -26,7 +28,7 @@ export const Item = ({ item }: IProps) => {
   };
 
   const remove_item = async () => {
-    await api.removeItem(item._id);
+    await listApi.removeItemFromList(activeListId, item._id);
     dispatch(removeItem(item._id));
   };
 

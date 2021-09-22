@@ -7,10 +7,5 @@ export interface IItem {
 export interface IList {
     readonly _id: string,
     title: string,
-}
-
-export interface IListNoState {
-    readonly _id: string,
-    title: string,
     items: IItem[],
 }

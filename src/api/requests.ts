@@ -33,5 +33,11 @@ export const listApi = {
   },
   removeList: async (id: string) => {
     return INSTANCE.delete(`/list/${id}`);
-  }
+  },
+  addItemToList: async (id: string, description: string) => {
+    return INSTANCE.put(`/list`, {id, description});
+  },
+  removeItemFromList: async (id: string, itemId: string) => {
+    return INSTANCE.put(`/list/${id}/${itemId}`);
+  },
 };
