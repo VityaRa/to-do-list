@@ -37,13 +37,6 @@ export const Sidebar = () => {
     dispatch(removeSidebarItem(item))
   }
 
-  useEffect(() => {
-    (async () => {
-      const lists = await listApi.getLists();
-      dispatch(setSidebarList(lists.data))
-    })();
-  }, []);
-
   return (
     <aside className={isOpen ? style.active : ""} ref={ref}>
       <h2 className={style.title}>Ваши списки</h2>

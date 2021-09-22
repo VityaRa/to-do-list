@@ -9,6 +9,7 @@ export const Header = () => {
   const isOpenedSidebar = useSelector(
     (state: RootState) => state.sidebar.isOpen
   );
+  const { title } = useSelector((state: RootState) => state.list);
 
   const sidebarClickHandler = () => {
     if (!isOpenedSidebar) {
@@ -19,7 +20,7 @@ export const Header = () => {
   return (
     <header className={style.container}>
       <div className={style.wrapper}>
-        <h2 className={style.title}>{"LIST"}</h2>
+        <h2 className={style.title}>{title}</h2>
         <SidebarButton isOpen={isOpenedSidebar} onClick={sidebarClickHandler} />
       </div>
     </header>

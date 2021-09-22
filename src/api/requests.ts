@@ -1,5 +1,5 @@
-import axios from "axios";
-import { IItem } from "../types/interfaces";
+import axios, { AxiosResponse } from "axios";
+import { IItem, IList } from "../types/interfaces";
 import { BASE_URL } from "../utils/constants";
 import { INSTANCE } from "./config";
 

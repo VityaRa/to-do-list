@@ -31,8 +31,11 @@ export const listSlice = createSlice({
         item.isDone = !action.payload.isDone;
       }
     },
-    getList: (state, action: PayloadAction<IItem[]>) => {
+    setList: (state, action: PayloadAction<IItem[]>) => {
       state.list = action.payload;
+    },
+    setTitle: (state, action: PayloadAction<string>) => {
+      state.title = action.payload;
     },
     updateItem: (state, action: PayloadAction<IItem>) => {
       const item = state.list.find((item) => item._id === action.payload._id);
@@ -60,7 +63,8 @@ export const {
   addItem,
   removeItem,
   toggleItem,
-  getList,
+  setList,
+  setTitle,
   updateItem,
   setSidebarList,
   removeSidebarItem,
