@@ -186,11 +186,11 @@ app.put("/api/list/:id/:itemId", jsonParser, async (req, res) => {
 
     const collection = req.app.locals.collection.collection("lists");
     try {
-        const result = await collection.findOneAndUpdate({ _id: id }, { $pull: { items: { itemId } } }, { returnDocument: "after" });
+        const result = await collection.findOneAndUpdate({ _id: id }, { $pull: { items: { _id: itemId } } }, { returnDocument: "after" });
         const item = result.value;
-        res.send(item);
+        res.send({ success: true });
     }
-    catch (err) { return console.log(err); }
+    catch (err) { return { success: false }; }
 });
 
 //update description
