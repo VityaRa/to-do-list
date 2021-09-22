@@ -35,9 +35,15 @@ export const listApi = {
     return INSTANCE.delete(`/list/${id}`);
   },
   addItemToList: async (id: string, description: string) => {
-    return INSTANCE.put(`/list`, {id, description});
+    return INSTANCE.put(`/list`, { id, description });
   },
   removeItemFromList: async (id: string, itemId: string) => {
     return INSTANCE.put(`/list/${id}/${itemId}`);
   },
+  updateItemDesc: async (id: string, itemId: string, description: string) => {
+    return INSTANCE.put(`/list/desc`, { id, itemId, description });
+  },
+  updateItemStatus: async (id: string, itemId: string, isDone: boolean) => {
+    return INSTANCE.put(`/list/status`, { id, itemId, isDone });
+  }
 };

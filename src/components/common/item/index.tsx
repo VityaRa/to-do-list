@@ -23,7 +23,7 @@ export const Item = ({ item }: IProps) => {
   const {activeListId} = useSelector((state: RootState) => state.list)
 
   const toggle_item = async () => {
-    await api.toggleItem(item._id, item.isDone);
+    await listApi.updateItemStatus(activeListId, item._id, !item.isDone)
     dispatch(toggleItem(item));
   };
 

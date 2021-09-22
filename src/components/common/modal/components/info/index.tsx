@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState } from "react";
-import { useDispatch } from "react-redux";
-import { api } from "../../../../../api/requests";
+import { useDispatch, useSelector } from "react-redux";
+import { api, listApi } from "../../../../../api/requests";
+import { RootState } from "../../../../../store";
 import {
   removeItem,
   toggleItem,
@@ -16,6 +17,8 @@ interface IProps {
 }
 
 export const Info = ({ item }: IProps) => {
+  const { activeListId } = useSelector((state: RootState) => state.list);
+
   const [value, setValue] = useState(item.description);
   const dispatch = useDispatch();
 
@@ -38,7 +41,7 @@ export const Info = ({ item }: IProps) => {
 
   const updateDesc = async () => {
     if (isChangedDesc(value)) {
-      const res = await api.updateDescription(item._id, value);
+      const res = await listApi.updateItemDesc(activeListId, item._id, value);
       dispatch(updateItem(res.data));
       dispatch(cleanModal());
     }

@@ -9,6 +9,7 @@ import {
 import { IList } from "../types/interfaces";
 import Cookies from "js-cookie";
 import { _COOKIES_ACTIVE_LIST_ID } from "../utils/constants";
+import { setMainList } from "./setMainList";
 
 export const loadInitialData = async (dispatch: Dispatch) => {
   const res = await listApi.getLists();
@@ -21,13 +22,9 @@ export const loadInitialData = async (dispatch: Dispatch) => {
       items: [],
       _id: ""
     };
-    dispatch(setList(savedList?.items));
-    dispatch(setTitle(savedList?.title));
-    dispatch(setActiveListId(savedList._id));
+    setMainList(dispatch, savedList);
   } else {
-    dispatch(setActiveListId(lists[0]._id));
-    dispatch(setList(lists[0].items));
-    dispatch(setTitle(lists[0].title));
+    setMainList(dispatch, lists[0]);
   }
 
   dispatch(setSidebarList(lists));
