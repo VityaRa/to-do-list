@@ -4,15 +4,15 @@ import { IItem, IList } from "../../types/interfaces";
 export interface IListState {
   title: string;
   list: IItem[];
-  sidebarList: IList[],
-  activeListId: string,
+  sidebarList: IList[];
+  activeListId: string;
 }
 
 const initialState: IListState = {
   title: "",
   list: [],
   sidebarList: [],
-  activeListId: '',
+  activeListId: ""
 };
 
 export const listSlice = createSlice({
@@ -39,11 +39,33 @@ export const listSlice = createSlice({
       if (item) {
         item.description = action.payload.description;
       }
-    }
+    },
+    setSidebarList: (state, action: PayloadAction<IList[]>) => {
+      state.sidebarList = action.payload;
+      state.activeListId = action.payload[0]._id;
+    },
+    setActiveListId: (state, action: PayloadAction<IList>) => {
+      state.activeListId = action.payload._id;
+    },
+    removeSidebarItem: (state, action: PayloadAction<IList>) => {
+      state.sidebarList = state.sidebarList.filter((item) => item._id !== action.payload._id);
+    },
+    addSidebarItem: (state, action: PayloadAction<IList>) => {
+      state.sidebarList.push(action.payload);
+    },
   }
 });
 
-export const { addItem, removeItem, toggleItem, getList, updateItem } =
-  listSlice.actions;
+export const {
+  addItem,
+  removeItem,
+  toggleItem,
+  getList,
+  updateItem,
+  setSidebarList,
+  removeSidebarItem,
+  addSidebarItem,
+  setActiveListId
+} = listSlice.actions;
 
 export default listSlice.reducer;

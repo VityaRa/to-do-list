@@ -4,9 +4,9 @@
     width: 100%;
     @include flex-center();
     & .input {
-        margin-right: 5vw;
         height: 40px;
         border-radius: 100px;
+        border: 0;
         padding-left: 10px;
         padding-right: 50px;
         color: #000;

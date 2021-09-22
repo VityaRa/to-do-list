@@ -5,24 +5,33 @@ import { addItem } from "../../store/reducers/listReducer";
 import { AddButton } from "../common/button";
 import style from "./style.module.scss";
 
-export const Bar = () => {
-  const dispatch = useDispatch();
+interface IProps {
+  onSuccess: (value: any) => void;
+  placeholder: string;
+  marginRight?: string;
+}
+
+export const Bar = ({ onSuccess, placeholder, marginRight = "3vw" }: IProps) => {
   const [value, setValue] = useState("");
   const [isFocused, setIsFocused] = useState(false);
   const ref = useRef<any>(null);
 
-  const addItemHandler = async () => {
+  const clearInput = () => {
+    setValue("");
+    ref.current.blur();
+  };
+
+  const buttonClickHandler = async () => {
     if (value.trim() !== "") {
-      const ans = await api.addItem(value);
-      dispatch(addItem(ans.data))
-      setValue("");
-      ref.current.blur()
+      onSuccess(value);
+      clearInput();
     }
   };
 
   const handleKeyDown = (event: any) => {
     if (event.key === "Enter" && isFocused) {
-      addItemHandler();
+      onSuccess(value);
+      clearInput();
     }
   };
 
@@ -32,7 +41,7 @@ export const Bar = () => {
         ref={ref}
         className={style.input}
         type="text"
-        placeholder={"Введите задание..."}
+        placeholder={placeholder}
         value={value}
         onInput={(e: any) => setValue(e.target.value)}
         onBlur={() => {
@@ -42,8 +51,9 @@ export const Bar = () => {
           setIsFocused(true);
         }}
         onKeyDown={handleKeyDown}
+        style={{ marginRight }}
       />
-      <AddButton onClick={addItemHandler} />
+      <AddButton onClick={buttonClickHandler} />
     </div>
   );
 };
