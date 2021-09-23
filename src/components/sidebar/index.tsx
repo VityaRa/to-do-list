@@ -59,6 +59,7 @@ export const Sidebar = () => {
           placeholder={"Введите название списка"}
           onSuccess={createListHandler}
           marginRight={"10px"}
+          type={"sidebar"}
         />
       </div>
       <ul>

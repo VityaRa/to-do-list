@@ -36,19 +36,19 @@ export const Button = ({ onClick, type, icon, content }: IButton) => {
 
 export const DoneButton = ({ onClick }: Partial<IButton>) => {
   return (
-    <Button type={ButtonType.DONE} onClick={onClick} icon={DoneIcon}></Button>
+    <Button type={ButtonType.DONE} onClick={onClick} icon={<DoneIcon/>}></Button>
   );
 };
 
 export const AddButton = ({ onClick }: Partial<IButton>) => {
   return (
-    <Button type={ButtonType.ADD} onClick={onClick} icon={AddIcon}></Button>
+    <Button type={ButtonType.ADD} onClick={onClick} icon={<AddIcon/>}></Button>
   );
 };
 
 export const RemoveButton = ({ onClick }: Partial<IButton>) => {
   return (
-    <Button type={ButtonType.REMOVE} onClick={onClick} icon={AddIcon}></Button>
+    <Button type={ButtonType.REMOVE} onClick={onClick} icon={<AddIcon/>}></Button>
   );
 };
 

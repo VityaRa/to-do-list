@@ -10,6 +10,11 @@ $btn-size: 40px;
     border: 0;
     cursor: pointer;
     &:hover {
+    background-color: white;
+
+    }
+    svg {
+        top: 2px;
     }
     &.done {
         margin-right: 10px;
