@@ -1,5 +1,5 @@
 import classNames from "classnames";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { listApi } from "../../api/requests";
 import { setMainList } from "../../functions/setMainList";
@@ -24,6 +24,7 @@ export const Sidebar = () => {
   const { sidebarList, activeListId } = useSelector(
     (state: RootState) => state.list
   );
+  const [hoveredId, setHoveredId] = useState<string>("");
   const dispatch = useDispatch();
 
   const ref = useOutsideClick(() => {
@@ -34,7 +35,7 @@ export const Sidebar = () => {
 
   const itemClickHandler = async (item: IList) => {
     if (item._id !== activeListId) {
-      const res = await listApi.getListById(item._id)
+      const res = await listApi.getListById(item._id);
       setMainList(dispatch, res.data[0]);
       Cookies.set(_COOKIES_ACTIVE_LIST_ID, item._id);
     }
@@ -50,6 +51,10 @@ export const Sidebar = () => {
     const res = await listApi.removeList(item._id);
     dispatch(removeSidebarItem(item));
   };
+
+  useEffect(() => {
+    console.log(hoveredId);
+  }, [hoveredId])
 
   return (
     <aside className={isOpen ? style.active : ""} ref={ref}>
@@ -71,14 +76,18 @@ export const Sidebar = () => {
                 [style.active]: item._id === activeListId
               })}
               onClick={() => itemClickHandler(item)}
+              onMouseOver={() => setHoveredId(item._id)}
+              onMouseLeave={() => setHoveredId("")}
             >
               <p className={style.text}>{item.title}</p>
-              <RemoveButton
-                onClick={(e) => {
-                  removeListItem(item);
-                  e.stopPropagation();
-                }}
-              />
+              <div style={{ opacity: item._id === hoveredId ? 1 : 0 }}>
+                <RemoveButton
+                  onClick={(e) => {
+                    removeListItem(item);
+                    e.stopPropagation();
+                  }}
+                />
+              </div>
             </li>
           );
         })}
