@@ -6,7 +6,7 @@
     margin-bottom: 20px;
     position: relative;
     & .wrapper {
-        padding: 0 5vw;
+        padding: 15px 5vw;
         display: flex;
         justify-content: center;
         align-items: center;
@@ -29,5 +29,6 @@
         display: flex;
         justify-content: center;
         align-items: center;
+        width: 70px;
     }
 }

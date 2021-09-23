@@ -1,4 +1,4 @@
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { listApi } from "../../api/requests";
 import { RootState } from "../../store";
@@ -25,7 +25,7 @@ export const Header = () => {
   };
 
   const updateTitleHandler = async () => {
-    if (value !== title) {
+    if (value !== title && value.length <= 15) {
       try {
         const res = await listApi.updateListTitle(activeListId, value);
 
@@ -34,17 +34,23 @@ export const Header = () => {
       } catch (e) {
         alert("Введите название");
       }
+    } else {
+      setValue(title)
     }
   };
 
   const handleKeyDown = (event: any) => {
     if (event.key === "Enter" && isFocused) {
-      updateTitleHandler();
       ref.current.blur();
     }
   };
 
   const titleRef = useRef(null);
+
+  useEffect(() => {
+   setValue(title)
+  }, [title])
+
   return (
     <header className={style.container}>
       <div className={style.wrapper}>
@@ -57,7 +63,6 @@ export const Header = () => {
           }}
           onBlur={() => {
             setIsFocused(false);
-            setValue("");
             updateTitleHandler();
           }}
           onKeyDown={handleKeyDown}
@@ -65,13 +70,6 @@ export const Header = () => {
           type="text"
           value={value}
         />
-        <h2
-          className={style.title}
-          ref={titleRef}
-          style={{ opacity: isFocused ? 0 : 1 }}
-        >
-          {title}
-        </h2>
         <SidebarButton isOpen={isOpenedSidebar} onClick={sidebarClickHandler} />
       </div>
     </header>
