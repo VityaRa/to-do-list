@@ -35,7 +35,7 @@ export const Header = () => {
         alert("Введите название");
       }
     } else {
-      setValue(title)
+      setValue(title);
     }
   };
 
@@ -48,8 +48,8 @@ export const Header = () => {
   const titleRef = useRef(null);
 
   useEffect(() => {
-   setValue(title)
-  }, [title])
+    setValue(title);
+  }, [title]);
 
   return (
     <header className={style.container}>

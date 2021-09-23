@@ -1,5 +1,7 @@
 import classNames from "classnames";
 import { useEffect, useRef, useState } from "react";
+import { useSelector } from "react-redux";
+import { RootState } from "../../store";
 import { AddButton } from "../common/button";
 import style from "./style.module.scss";
 
@@ -17,8 +19,13 @@ export const Bar = ({
   type = "main"
 }: IProps) => {
   const [value, setValue] = useState("");
+  const { activeListId } = useSelector((state: RootState) => state.list);
   const [isFocused, setIsFocused] = useState(false);
   const ref = useRef<any>(null);
+
+  useEffect(() => {
+    clearInput()
+  }, [activeListId]);
 
   const clearInput = () => {
     setValue("");
