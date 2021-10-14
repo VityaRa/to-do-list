@@ -18,6 +18,7 @@ app.use(cors());
 
 const port = process.env.PORT || 3001;
 
+//init Mongo connection
 (async () => {
     try {
         await mongoClient.connect();
@@ -30,8 +31,6 @@ const port = process.env.PORT || 3001;
         return console.log(err);
     }
 })();
-
-
 
 
 app.post("/api/register", jsonParser, async (req, res) => {
