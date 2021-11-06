@@ -29,7 +29,6 @@ const port = process.env.PORT || 3001;
             console.log("Сервер ожидает подключения...");
         })
     
-        models.User.create(f)
         
     } catch (err) {
         return console.log(err);
@@ -62,7 +61,7 @@ app.post("/api/register", jsonParser, async (req, res) => {
         })
 
         const token = jwt.sign(
-            { user_id: user._id, email },
+            { user_id: user._id.toString(), email },
             process.env.TOKEN_KEY,
             {
                 expiresIn: "2h",
@@ -94,7 +93,7 @@ app.post("/api/login", jsonParser, async (req, res) => {
         if (user && (await bcrypt.compare(password, user.password))) {
 
             const token = jwt.sign(
-                { user_id: user._id, email },
+                { user_id: user._id.toString(), email },
                 process.env.TOKEN_KEY,
                 {
                     expiresIn: "2h",
@@ -112,44 +111,42 @@ app.post("/api/login", jsonParser, async (req, res) => {
     }
 });
 
-
-
 //get all lists
-app.get("/api/list", jsonParser, async (req, res) => {
+app.get("/api/list", jsonParser, auth, async (req, res) => {
+
     const collection = req.app.locals.collection.collection("lists");
     try {
-        const items = await collection.find({}).toArray();
+        const items = await collection.find({userId: req.userId}, { projection: { userId: 0 } }).toArray();
         res.send(items);
     }
     catch (err) { return console.log(err); }
 });
 
 //get list by id
-app.get("/api/list/:id", jsonParser, async (req, res) => {
+app.get("/api/list/:id", jsonParser, auth, async (req, res) => {
     const collection = req.app.locals.collection.collection("lists");
     const id = new objectId(req.params.id);
 
     try {
-        const items = await collection.find({ _id: id }).toArray();
-        res.send(items);
+        const list = await collection.findOne({ _id: id, userId: req.userId }, { projection: { userId: 0 } });
+        res.send(list);
     }
     catch (err) { return console.log(err); }
 });
 
 //create new list instance
-app.post("/api/list", jsonParser, async (req, res) => {
+app.post("/api/list", jsonParser, auth, async (req, res) => {
     if (!req.body) return res.sendStatus(400);
 
     const { title } = req.body
     if (!title) res.sendStatus(400);
-
-
-
-    const newList = { title, items: [] }
+    console.log(req.userId);
+    const newList = { title, items: [], userId: req.userId }
     const collection = req.app.locals.collection.collection("lists");
 
     try {
         await collection.insertOne(newList);
+        delete newList.userId;
         res.send(newList);
     }
 
@@ -157,11 +154,11 @@ app.post("/api/list", jsonParser, async (req, res) => {
 });
 
 //remove list by id
-app.delete("/api/list/:id", jsonParser, async (req, res) => {
+app.delete("/api/list/:id", jsonParser, auth, async (req, res) => {
     const id = new objectId(req.params.id);
     const collection = req.app.locals.collection.collection("lists");
     try {
-        const result = await collection.findOneAndDelete({ _id: id });
+        const result = await collection.findOneAndDelete({ _id: id, userId: req.userId});
         const item = result.value;
         res.send(item);
     }
@@ -169,7 +166,7 @@ app.delete("/api/list/:id", jsonParser, async (req, res) => {
 });
 
 //add task in specific list
-app.put("/api/list/", jsonParser, async (req, res) => {
+app.put("/api/list/", jsonParser, auth, async (req, res) => {
     const collection = req.app.locals.collection.collection("lists");
     const { description } = req.body
 
@@ -177,7 +174,7 @@ app.put("/api/list/", jsonParser, async (req, res) => {
     const id = new objectId(req.body.id);
 
     const newItem = {
-        description, isDone: false, _id: new objectId()
+        description, isDone: false, _id: new objectId(), creationDate: new Date()
     }
 
     try {
@@ -189,13 +186,13 @@ app.put("/api/list/", jsonParser, async (req, res) => {
 });
 
 //remove item from list
-app.put("/api/list/:id/:itemId", jsonParser, async (req, res) => {
+app.put("/api/list/:id/:itemId", jsonParser, auth, async (req, res) => {
     const id = new objectId(req.params.id);
     const itemId = new objectId(req.params.itemId);
 
     const collection = req.app.locals.collection.collection("lists");
     try {
-        const result = await collection.findOneAndUpdate({ _id: id }, { $pull: { items: { _id: itemId } } }, { returnDocument: "after" });
+        const result = await collection.findOneAndUpdate({ _id: id, userId: req.userId }, { $pull: { items: { _id: itemId } } }, { returnDocument: "after" });
         const item = result.value;
         res.send({ success: true });
     }
@@ -203,7 +200,7 @@ app.put("/api/list/:id/:itemId", jsonParser, async (req, res) => {
 });
 
 //update description
-app.put("/api/list/desc", jsonParser, async (req, res) => {
+app.put("/api/list/desc", jsonParser, auth, async (req, res) => {
 
     if (!req.body) return res.sendStatus(400);
 
@@ -223,7 +220,7 @@ app.put("/api/list/desc", jsonParser, async (req, res) => {
 });
 
 //update status
-app.put("/api/list/status", jsonParser, async (req, res) => {
+app.put("/api/list/status", jsonParser, auth, async (req, res) => {
 
     if (!req.body) return res.sendStatus(400);
 
@@ -243,7 +240,7 @@ app.put("/api/list/status", jsonParser, async (req, res) => {
 });
 
 //update title
-app.put("/api/list/title", jsonParser, async (req, res) => {
+app.put("/api/list/title", jsonParser, auth, async (req, res) => {
     const collection = req.app.locals.collection.collection("lists");
     const { title, id } = req.body
 
@@ -254,7 +251,7 @@ app.put("/api/list/title", jsonParser, async (req, res) => {
     try {
         const result = await collection.findOneAndUpdate({ _id }, { $set: { title } },
             { returnDocument: "after" });
-        console.log(result.value);
+        
         res.send({ title: result.value.title, _id: result.value._id, items: [] });
     }
     catch (err) { return console.log(err); }
