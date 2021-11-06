@@ -11,6 +11,8 @@ const auth = require("./middleware/auth");
 const app = express();
 const jsonParser = express.json();
 
+const models = require("./model/models")
+
 const mongoClient = new MongoClient("mongodb+srv://Vityarka:2301some36rand41@cluster0.nlskh.mongodb.net/test-mongo?retryWrites=true&w=majority");
 
 app.use(express.static(__dirname + "/public"));
@@ -26,7 +28,9 @@ const port = process.env.PORT || 3001;
         app.listen(port, () => {
             console.log("Сервер ожидает подключения...");
         })
-
+    
+        models.User.create(f)
+        
     } catch (err) {
         return console.log(err);
     }
@@ -35,10 +39,13 @@ const port = process.env.PORT || 3001;
 
 app.post("/api/register", jsonParser, async (req, res) => {
     try {
+
         const { email, password } = req.body;
+
         if (!(email && password)) {
             res.status(400).send("All input is required");
         }
+
         const collection = req.app.locals.collection.collection("users");
 
         const oldUser = await collection.findOne({ email });
@@ -64,7 +71,7 @@ app.post("/api/register", jsonParser, async (req, res) => {
 
         user.token = token;
 
-        res.status(201).json(user);
+        res.status(201).json({ token: user.token, email, id: user.insertedId });
     } catch (err) {
         console.log(err);
     }
@@ -76,10 +83,10 @@ app.post("/api/login", jsonParser, async (req, res) => {
 
         const { email, password } = req.body;
 
-
         if (!(email && password)) {
             res.status(400).send("All input is required");
         }
+
         const collection = req.app.locals.collection.collection("users");
 
         const user = await collection.findOne({ email });
@@ -95,14 +102,17 @@ app.post("/api/login", jsonParser, async (req, res) => {
             );
 
             user.token = token;
+            res.status(201).json({ token: user.token, email, id: user._id });
 
-            res.status(200).json(user);
+        } else {
+            res.status(400).send("Invalid Credentials");
         }
-        res.status(400).send("Invalid Credentials");
     } catch (err) {
         console.log(err);
     }
 });
+
+
 
 //get all lists
 app.get("/api/list", jsonParser, async (req, res) => {
@@ -245,98 +255,10 @@ app.put("/api/list/title", jsonParser, async (req, res) => {
         const result = await collection.findOneAndUpdate({ _id }, { $set: { title } },
             { returnDocument: "after" });
         console.log(result.value);
-        res.send({title: result.value.title, _id: result.value._id, items: []});
+        res.send({ title: result.value.title, _id: result.value._id, items: [] });
     }
     catch (err) { return console.log(err); }
 });
-
-//START NEW VERSION (CURRENTLY ACTIVE)
-
-//get all tasks
-// app.get("/api/items", jsonParser, async (req, res) => {
-//     const collection = req.app.locals.collection.collection("items");
-//     try {
-//         const items = await collection.find({}).toArray();
-//         res.send(items);
-//     }
-//     catch (err) { return console.log(err); }
-// });
-
-// app.get("/api/users/:id", async (req, res) => {
-
-//     const id = new objectId(req.params.id);
-//     const collection = req.app.locals.collection.collection("items");
-//     try {
-//         const user = await collection.findOne({ _id: id });
-//         res.send(user);
-//     }
-//     catch (err) { return console.log(err); }
-// });
-
-// app.post("/api/item", jsonParser, async (req, res) => {
-
-//     if (!req.body) return res.sendStatus(400);
-
-//     const { description } = req.body
-//     if (!description) res.sendStatus(400);
-
-//     const item = { description, isDone: false };
-
-//     const collection = req.app.locals.collection.collection("items");
-
-//     try {
-//         await collection.insertOne(item);
-//         res.send(item);
-//     }
-//     catch (err) { return console.log(err); }
-// });
-
-// app.delete("/api/item/:id", async (req, res) => {
-//     const id = new objectId(req.params.id);
-//     const collection = req.app.locals.collection.collection("items");
-//     try {
-//         const result = await collection.findOneAndDelete({ _id: id });
-//         const item = result.value;
-//         res.send(item);
-//     }
-//     catch (err) { return console.log(err); }
-// });
-
-// app.put("/api/item/desc", jsonParser, async (req, res) => {
-
-//     if (!req.body) return res.sendStatus(400);
-//     const id = new objectId(req.body.id);
-
-//     const { description } = req.body
-//     if (!description) res.sendStatus(400);
-
-//     const collection = req.app.locals.collection.collection("items");
-//     try {
-//         const result = await collection.findOneAndUpdate({ _id: id }, { $set: { description } },
-//             { returnDocument: "after" });
-//         const item = result.value;
-//         res.send(item);
-//     }
-//     catch (err) { return console.log(err); }
-// });
-
-// app.put("/api/item/status", jsonParser, async (req, res) => {
-
-//     if (!req.body) return res.sendStatus(400);
-//     const id = new objectId(req.body.id);
-
-//     const { isDone } = req.body
-//     const collection = req.app.locals.collection.collection("items");
-//     try {
-//         const result = await collection.findOneAndUpdate({ _id: id }, { $set: { isDone } },
-//             { returnDocument: "after" });
-//         const item = result.value;
-//         res.send(item);
-//     }
-//     catch (err) { return console.log(err); }
-// });
-
-//END OLD VERSION
 
 process.on("SIGINT", async () => {
     await mongoClient.close();
