@@ -13,6 +13,7 @@ import { setMainList } from "./setMainList";
 
 export const loadInitialData = async (dispatch: Dispatch) => {
   const res = await listApi.getLists();
+
   const lists: IList[] = res.data;
 
   const savedListId = Cookies.get(_COOKIES_ACTIVE_LIST_ID) || "";
@@ -24,7 +25,14 @@ export const loadInitialData = async (dispatch: Dispatch) => {
     };
     setMainList(dispatch, savedList);
   } else {
-    setMainList(dispatch, lists[0]);
+    setMainList(
+      dispatch,
+      lists[0] || {
+        title: "",
+        items: [],
+        _id: ""
+      }
+    );
   }
 
   dispatch(setSidebarList(lists));

@@ -14,10 +14,11 @@ import {
 import { toggleSidebar } from "../../store/reducers/sidebarReducer";
 import { IList } from "../../types/interfaces";
 import { Bar } from "../bar";
-import { AddButton, RemoveButton } from "../common/button";
+import { AddButton, RemoveButton, SubmitButton } from "../common/button";
 import style from "./style.module.scss";
 import Cookies from "js-cookie";
 import { _COOKIES_ACTIVE_LIST_ID } from "../../utils/constants";
+import { logout } from "../../functions/logout";
 
 export const Sidebar = () => {
   const { isOpen } = useSelector((state: RootState) => state.sidebar);
@@ -36,7 +37,7 @@ export const Sidebar = () => {
   const itemClickHandler = async (item: IList) => {
     if (item._id !== activeListId) {
       const res = await listApi.getListById(item._id);
-      setMainList(dispatch, res.data[0]);
+      setMainList(dispatch, res.data);
       Cookies.set(_COOKIES_ACTIVE_LIST_ID, item._id);
     }
     dispatch(toggleSidebar());
@@ -51,10 +52,6 @@ export const Sidebar = () => {
     const res = await listApi.removeList(item._id);
     dispatch(removeSidebarItem(item));
   };
-
-  useEffect(() => {
-    console.log(hoveredId);
-  }, [hoveredId])
 
   return (
     <aside className={isOpen ? style.active : ""} ref={ref}>
@@ -92,6 +89,7 @@ export const Sidebar = () => {
           );
         })}
       </ul>
+      <SubmitButton onClick={() => logout(dispatch)}></SubmitButton>
     </aside>
   );
 };

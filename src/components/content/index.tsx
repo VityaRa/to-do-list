@@ -17,6 +17,8 @@ export const Content = () => {
     dispatch(addItem(res.data));
   };
 
+
+  
   return (
     <div className={style.content}>
       <Bar placeholder={"Введите название задания..."} onSuccess={addItemHandler} />

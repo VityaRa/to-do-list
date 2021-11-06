@@ -1,7 +1,6 @@
 import classNames from "classnames";
 import { useDispatch, useSelector } from "react-redux";
 import { api, listApi } from "../../../api/requests";
-import { removeAsync } from "../../../functions/isRegister";
 import { RootState } from "../../../store";
 import {
   removeItem,

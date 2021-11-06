@@ -1,6 +1,3 @@
-import axios, { AxiosResponse } from "axios";
-import { IItem, IList } from "../types/interfaces";
-import { BASE_URL } from "../utils/constants";
 import { INSTANCE } from "./config";
 
 export const api = {
@@ -48,5 +45,14 @@ export const listApi = {
   },
   updateListTitle: async (id: string, title: string) => {
     return INSTANCE.put(`/list/title`, { id, title });
+  }
+};
+
+export const userApi = {
+  register: async (email: string, password: string) => {
+    return INSTANCE.post(`/register/`, { email, password });
+  },
+  login: async (email: string, password: string) => {
+    return INSTANCE.post(`/login/`, { email, password });
   }
 };

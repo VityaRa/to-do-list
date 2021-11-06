@@ -1,0 +1,9 @@
+.container {
+    & input {
+        color: #000;
+        &.wrong {
+            border: 2px solid red;
+        }
+    }
+
+}

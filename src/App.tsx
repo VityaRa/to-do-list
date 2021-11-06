@@ -1,31 +1,43 @@
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
+import { setAuthData } from "./api/config";
 import "./App.scss";
 import { Modal } from "./components/common/modal";
 import { Info } from "./components/common/modal/components/info";
+import { SignUp } from "./components/common/modal/components/signUp";
 import { Content } from "./components/content";
 import { Header } from "./components/header";
 import { Sidebar } from "./components/sidebar";
-import { isRegister } from "./functions/isRegister";
 import { loadInitialData } from "./functions/loadInitialData";
 import { RootState } from "./store";
+import { setModal, toggleModal } from "./store/reducers/modalReducer";
 
 const App = () => {
   const dispatch = useDispatch();
 
   const isOpenedModal = useSelector((state: RootState) => state.modal.isOpen);
-  const isOpenedSidebar = useSelector((state: RootState) => state.sidebar.isOpen);
 
+  const { id } = useSelector((state: RootState) => state.user);
 
   useEffect(() => {
-    loadInitialData(dispatch);
-  }, []);
+    setAuthData()
+    if (!id) {
+      dispatch(setModal(<SignUp />));
+      dispatch(toggleModal(true));
+    } else {
+      loadInitialData(dispatch);
+    }
+  }, [id]);
+
+  // useEffect(() => {
+  //   loadInitialData(dispatch);
+  // }, []);
 
   return (
     <div className="App">
       <Header></Header>
       <Content></Content>
-      <Sidebar/>
+      <Sidebar />
       {isOpenedModal && <Modal />}
     </div>
   );

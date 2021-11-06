@@ -5,12 +5,14 @@ import { Action, configureStore, ThunkAction } from "@reduxjs/toolkit";
 import listReducer from "./reducers/listReducer";
 import modalReducer from "./reducers/modalReducer";
 import sidebarReducer from "./reducers/sidebarReducer";
+import userReducer from './reducers/userReducer';
 
 export const store = configureStore({
   reducer: {
     list: listReducer,
     modal: modalReducer,
     sidebar: sidebarReducer,
+    user: userReducer,
   },
   middleware: [thunk, logger]
 });

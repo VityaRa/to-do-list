@@ -64,7 +64,8 @@ export const listSlice = createSlice({
       if (item) {
         item.title = action.payload.title;
       }
-    }
+    },
+    clearData: () => initialState
   }
 });
 
@@ -79,7 +80,8 @@ export const {
   removeSidebarItem,
   addSidebarItem,
   setActiveListId,
-  updateSidebarItem
+  updateSidebarItem,
+  clearData
 } = listSlice.actions;
 
 export default listSlice.reducer;
