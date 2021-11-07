@@ -1,7 +1,8 @@
 import classNames from "classnames";
 import { useEffect, useRef, useState } from "react";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../../store";
+import { setSearchWord } from "../../store/reducers/sidebarReducer";
 import { AddButton } from "../common/button";
 import style from "./style.module.scss";
 
@@ -23,13 +24,16 @@ export const Bar = ({
   const [isFocused, setIsFocused] = useState(false);
   const ref = useRef<any>(null);
 
+  const dispatch = useDispatch();
+
   useEffect(() => {
-    clearInput()
+    clearInput();
   }, [activeListId]);
 
   const clearInput = () => {
     setValue("");
     ref.current.blur();
+    dispatch(setSearchWord(""));
   };
 
   const buttonClickHandler = async () => {
@@ -58,7 +62,10 @@ export const Bar = ({
         type="text"
         placeholder={placeholder}
         value={value}
-        onInput={(e: any) => setValue(e.target.value)}
+        onInput={(e: any) => {
+          setValue(e.target.value);
+          dispatch(setSearchWord(e.target.value));
+        }}
         onBlur={() => {
           setIsFocused(false);
         }}

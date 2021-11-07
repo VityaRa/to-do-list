@@ -51,18 +51,16 @@ export const SignIn = () => {
         <Input
           value={email}
           onChangeHandler={(e) => setEmail(e.target.value)}
-          //   checkError={dataCheck.email}
-          //   errorText={errorMessage.email}
           placeholder={labelMessage.email}
+          type="email"
         />
       </div>
       <div className={style.input}>
         <Input
           value={password}
           onChangeHandler={(e) => setPassword(e.target.value)}
-          //   checkError={dataCheck.password}
-          //   errorText={errorMessage.password}
           placeholder={labelMessage.password}
+          type="password"
         />
       </div>
       <div className={style.extra}>

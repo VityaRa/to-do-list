@@ -63,4 +63,14 @@ aside {
             width: 80% !important;
         }
     }
+
+    & .right_info {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+
+        & .count {
+            position: absolute;
+        }
+    }
 }

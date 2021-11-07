@@ -32,10 +32,6 @@ const App = () => {
   }
   }, [email]);
 
-  // useEffect(() => {
-  //   loadInitialData(dispatch);
-  // }, []);
-
   return (
     <div className="App">
       <Header></Header>
