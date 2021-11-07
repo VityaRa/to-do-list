@@ -12,9 +12,6 @@ $btn-size: 40px;
     &:hover {
         background-color: white;
     }
-    svg {
-        top: 2px;
-    }
     &.done {
         margin-right: 10px;
         & svg {
@@ -28,8 +25,8 @@ $btn-size: 40px;
     }
     &.submit {
         font-size: 20px;
-        width: 50%;
         border-radius: 10px;
+        width: 100%;
         background-color: #fff;
         color: #000;
         &:hover {

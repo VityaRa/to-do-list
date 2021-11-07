@@ -23,5 +23,9 @@
             color: rgb(202, 202, 145);
         }
     }
-
+    & .error {
+        color: red;
+        text-align: center;
+        margin-top: 10px;
+    }
 }

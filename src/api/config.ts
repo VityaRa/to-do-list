@@ -17,7 +17,7 @@ export const setAuthData = () => {
   INSTANCE.defaults.headers["x-access-token"] =
     localStorage.getItem(_COOKIES_ACCESS);
 
-  INSTANCE.defaults.params = { userId: localStorage.getItem(_COOKIES_USER_ID), email: localStorage.getItem(_COOKIES_EMAIL) };
+  // INSTANCE.defaults.params = { userId: localStorage.getItem(_COOKIES_USER_ID), email: localStorage.getItem(_COOKIES_EMAIL) };
 };
 
 setAuthData();

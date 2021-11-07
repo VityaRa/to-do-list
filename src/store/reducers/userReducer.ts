@@ -2,16 +2,16 @@ import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { _COOKIES_EMAIL, _COOKIES_USER_ID } from "../../utils/constants";
 
 export interface IUserState {
-  readonly id: string;
-  email: string;
+  // readonly id: string;
+  readonly email: string;
 }
 
-const initialId = localStorage.getItem(_COOKIES_USER_ID)
-const email = localStorage.getItem(_COOKIES_EMAIL)
+// const initialId = localStorage.getItem(_COOKIES_USER_ID)
+// const email = localStorage.getItem(_COOKIES_EMAIL)
 
 const initialState: IUserState = {
-  id: initialId || "",
-  email: email || ""
+  // id: "",
+  email: ""
 };
 
 export const sidebarSlice = createSlice({
@@ -19,11 +19,11 @@ export const sidebarSlice = createSlice({
   initialState,
   reducers: {
     setUser: (state, action: PayloadAction<IUserState>) => {
-      state.id = action.payload.id;
+      // state.id = action.payload.id;
       state.email = action.payload.email;
     },
     logoutAction: (state) => {
-      state.id = "";
+      // state.id = "";
       state.email = "";
     }
   }

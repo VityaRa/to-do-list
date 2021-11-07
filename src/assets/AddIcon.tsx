@@ -1,11 +1,16 @@
 import style from "./style.module.scss";
 
-export const AddIcon = () => {
+interface IProps {
+  width?: number;
+  height?: number;
+}
+
+export const AddIcon = ({ width, height }: IProps) => {
   return (
     <div className={style.icon}>
       <svg
-        width="30"
-        height="30"
+        width={width || 30}
+        height={height || 30}
         viewBox="0 0 100 100"
         fill="none"
       >

@@ -35,7 +35,7 @@ export const Input = ({
         placeholder={placeholder || ""}
         className={[style.input, isError ? style.wrong : ""].join(" ")}
       ></input>
-      {isError && <p>{errorText}</p>}
+      {isError && <p className={style.error_text}>{errorText}</p>}
     </div>
   );
 };

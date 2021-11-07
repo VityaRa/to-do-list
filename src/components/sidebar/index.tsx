@@ -89,7 +89,9 @@ export const Sidebar = () => {
           );
         })}
       </ul>
-      <SubmitButton onClick={() => logout(dispatch)}></SubmitButton>
+      <div className={style.button_container}>
+        <SubmitButton onClick={() => logout(dispatch)} content={"Выйти"}></SubmitButton>
+      </div>
     </aside>
   );
 };

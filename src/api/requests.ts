@@ -54,5 +54,8 @@ export const userApi = {
   },
   login: async (email: string, password: string) => {
     return INSTANCE.post(`/login/`, { email, password });
+  },
+  getUser: async () => {
+    return INSTANCE.get(`/user/`);
   }
 };

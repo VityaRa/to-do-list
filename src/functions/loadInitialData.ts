@@ -1,5 +1,5 @@
 import { Dispatch } from "redux";
-import { api, listApi } from "../api/requests";
+import { api, listApi, userApi } from "../api/requests";
 import {
   setActiveListId,
   setList,
@@ -10,8 +10,12 @@ import { IList } from "../types/interfaces";
 import Cookies from "js-cookie";
 import { _COOKIES_ACTIVE_LIST_ID } from "../utils/constants";
 import { setMainList } from "./setMainList";
+import { setUser } from "../store/reducers/userReducer";
 
 export const loadInitialData = async (dispatch: Dispatch) => {
+  const user = await userApi.getUser();
+  dispatch(setUser({email: user.data.email}));
+  
   const res = await listApi.getLists();
 
   const lists: IList[] = res.data;

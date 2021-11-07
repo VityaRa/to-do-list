@@ -7,7 +7,7 @@ export const dataCheck = {
 
 export const errorMessage = {
   email: "Неверный e-mail",
-  password: "Неверный пароль",
+  password: "Неверный пароль (должен содержать минимум 8 символов, 1 спец. знак, 1 цифру, 1 букву)",
 };
 
 export const labelMessage = {
