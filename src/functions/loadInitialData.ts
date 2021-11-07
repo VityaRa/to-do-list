@@ -13,31 +13,32 @@ import { setMainList } from "./setMainList";
 import { setUser } from "../store/reducers/userReducer";
 
 export const loadInitialData = async (dispatch: Dispatch) => {
-  const user = await userApi.getUser();
-  dispatch(setUser({email: user.data.email}));
-  
-  const res = await listApi.getLists();
+  try {
+    const user = await userApi.getUser();
+    dispatch(setUser({ email: user.data.email }));
+    const res = await listApi.getLists();
 
-  const lists: IList[] = res.data;
+    const lists: IList[] = res.data;
 
-  const savedListId = Cookies.get(_COOKIES_ACTIVE_LIST_ID) || "";
-  if (savedListId) {
-    const savedList = lists.find((item) => item._id === savedListId) || {
-      title: "",
-      items: [],
-      _id: ""
-    };
-    setMainList(dispatch, savedList);
-  } else {
-    setMainList(
-      dispatch,
-      lists[0] || {
+    const savedListId = Cookies.get(_COOKIES_ACTIVE_LIST_ID) || "";
+    if (savedListId) {
+      const savedList = lists.find((item) => item._id === savedListId) || {
         title: "",
         items: [],
         _id: ""
-      }
-    );
-  }
+      };
+      setMainList(dispatch, savedList);
+    } else {
+      setMainList(
+        dispatch,
+        lists[0] || {
+          title: "",
+          items: [],
+          _id: ""
+        }
+      );
+    }
 
-  dispatch(setSidebarList(lists));
+    dispatch(setSidebarList(lists));
+  } catch (e) {}
 };

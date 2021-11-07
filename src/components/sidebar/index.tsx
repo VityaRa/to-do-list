@@ -69,47 +69,55 @@ export const Sidebar = () => {
       <h2 className={style.title}>Ваши списки</h2>
       <div className={style.button}>
         <Bar
-          placeholder={"Введите название списка"}
+          placeholder={"Поиск/добавление списка"}
           onSuccess={createListHandler}
           marginRight={"10px"}
           type={"sidebar"}
         />
       </div>
       <ul>
-        {sidebarList
-          .filter(
-            (list) =>
-              list.title.includes(searchWord) ||
-              list.items.some((item) => item.description.includes(searchWord))
-          )
-          .map((item) => {
-            return (
-              <li
-                key={item._id}
-                className={classNames(style.item, {
-                  [style.active]: item._id === activeListId
-                })}
-                onClick={() => itemClickHandler(item)}
-                onMouseOver={() => setHoveredId(item._id)}
-                onMouseLeave={() => setHoveredId("")}
-              >
-                <p className={style.text}>{item.title}</p>
-                <div className={style.right_info}>
-                  <p className={style.count}>
-                    {item.items.filter((elem) => !elem.isDone).length}
-                  </p>
-                  <div style={{ opacity: item._id === hoveredId ? 1 : 0 }}>
-                    <RemoveButton
-                      onClick={(e) => {
-                        removeListItem(item);
-                        e.stopPropagation();
-                      }}
-                    />
+        {sidebarList.length ? (
+          sidebarList
+            .filter(
+              (list) =>
+                list.title.includes(searchWord) ||
+                list.items.some((item) => item.description.includes(searchWord))
+            )
+            .map((item) => {
+              return (
+                <li
+                  key={item._id}
+                  className={classNames(style.item, {
+                    [style.active]: item._id === activeListId
+                  })}
+                  onClick={() => itemClickHandler(item)}
+                  onMouseOver={() => setHoveredId(item._id)}
+                  onMouseLeave={() => setHoveredId("")}
+                >
+                  <p className={style.text}>{item.title}</p>
+                  <div className={style.right_info}>
+                    <p className={style.count}>
+                      {item.items.length
+                        ? item.items.filter((elem) => !elem.isDone).length
+                        : ""}
+                    </p>
+                    <div style={{ opacity: item._id === hoveredId ? 1 : 0 }}>
+                      <RemoveButton
+                        onClick={(e) => {
+                          removeListItem(item);
+                          e.stopPropagation();
+                        }}
+                      />
+                    </div>
                   </div>
-                </div>
-              </li>
-            );
-          })}
+                </li>
+              );
+            })
+        ) : (
+          <div className={style.empty_list}>
+            <p>Здесь будут находится ваши списки</p>
+          </div>
+        )}
       </ul>
       <div className={style.button_container}>
         {email ? (
