@@ -188,7 +188,7 @@ app.put("/api/list/", jsonParser, auth, async (req, res) => {
     }
 
     try {
-        const result = await collection.findOneAndUpdate({ _id: id }, { $push: { items: newItem } },
+        const result = await collection.findOneAndUpdate({ _id: id, email: req.user }, { $push: { items: newItem } },
             { returnDocument: "after" });
         res.send(newItem);
     }
@@ -222,7 +222,7 @@ app.put("/api/list/desc", jsonParser, auth, async (req, res) => {
 
     const collection = req.app.locals.collection.collection("lists");
     try {
-        const result = await collection.findOneAndUpdate({ _id: id, "items._id": itemId }, { $set: { "items.$.description": description } }, { returnDocument: "after" });
+        const result = await collection.findOneAndUpdate({ _id: id, email: req.user, "items._id": itemId }, { $set: { "items.$.description": description } }, { returnDocument: "after" });
         const list = result.value;
         res.send(list.items.find(elem => elem._id.equals(itemId)))
     }
@@ -242,7 +242,7 @@ app.put("/api/list/status", jsonParser, auth, async (req, res) => {
 
     const collection = req.app.locals.collection.collection("lists");
     try {
-        const result = await collection.findOneAndUpdate({ _id: id, "items._id": itemId }, { $set: { "items.$.isDone": isDone } }, { returnDocument: "after" });
+        const result = await collection.findOneAndUpdate({ _id: id, email: req.user, "items._id": itemId }, { $set: { "items.$.isDone": isDone } }, { returnDocument: "after" });
         const list = result.value;
         res.send(list.items.find(elem => elem._id.equals(itemId)))
     }
@@ -259,7 +259,7 @@ app.put("/api/list/title", jsonParser, auth, async (req, res) => {
     const _id = new objectId(req.body.id);
 
     try {
-        const result = await collection.findOneAndUpdate({ _id }, { $set: { title } },
+        const result = await collection.findOneAndUpdate({ _id, email: req.user }, { $set: { title } },
             { returnDocument: "after" });
 
         res.send({ title: result.value.title, _id: result.value._id, items: [] });
