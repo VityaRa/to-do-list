@@ -64,7 +64,7 @@ export const Bar = ({
         value={value}
         onInput={(e: any) => {
           setValue(e.target.value);
-          dispatch(setSearchWord(e.target.value));
+          if (type === "sidebar") dispatch(setSearchWord(e.target.value));
         }}
         onBlur={() => {
           setIsFocused(false);

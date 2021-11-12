@@ -9,7 +9,7 @@ import { List } from "../common/list";
 import style from "./style.module.scss";
 
 export const Content = () => {
-  const { list, activeListId } = useSelector((state: RootState) => state.list);
+  const { sidebarList, activeListId } = useSelector((state: RootState) => state.list);
   const dispatch = useDispatch();
 
   const addItemHandler = async (value: string) => {
@@ -17,13 +17,11 @@ export const Content = () => {
     dispatch(addItem(res.data));
   };
 
-
-  
   return (
     <div className={style.content}>
       <Bar placeholder={"Введите название задания..."} onSuccess={addItemHandler} />
-      {list.length ? (
-        <List items={[...list].sort((a, b) => +a.isDone - +b.isDone)} />
+      {(sidebarList.find(list => list._id === activeListId) ?? {items: []}).items.length ? (
+        <List items={[...(sidebarList.find(list => list._id === activeListId)?.items ?? [])].sort((a, b) => +a.isDone - +b.isDone)} />
       ) : (
         <h3 className={style.empty_text}>Список пуст...</h3>
       )}

@@ -8,8 +8,6 @@ import { RootState } from "../../store";
 import {
   addSidebarItem,
   removeSidebarItem,
-  setActiveListId,
-  setSidebarList
 } from "../../store/reducers/listReducer";
 import { toggleSidebar } from "../../store/reducers/sidebarReducer";
 import { IItem, IList } from "../../types/interfaces";

@@ -3,14 +3,14 @@ import { IItem, IList } from "../../types/interfaces";
 
 export interface IListState {
   title: string;
-  list: IItem[];
+  // list: IItem[];
   sidebarList: IList[];
   activeListId: string;
 }
 
 const initialState: IListState = {
   title: "",
-  list: [],
+  // list: [],
   sidebarList: [],
   activeListId: ""
 };
@@ -20,27 +20,48 @@ export const listSlice = createSlice({
   initialState,
   reducers: {
     addItem: (state, action: PayloadAction<IItem>) => {
-      state.list.push(action.payload);
-    },
-    removeItem: (state, action: PayloadAction<string>) => {
-      state.list = state.list.filter((item) => item._id !== action.payload);
-    },
-    toggleItem: (state, action: PayloadAction<IItem>) => {
-      const item = state.list.find((item) => item._id === action.payload._id);
-      if (item) {
-        item.isDone = !action.payload.isDone;
+      const list = state.sidebarList.find(
+        (item) => item._id === state.activeListId
+      );
+      if (list) {
+        list.items.push(action.payload);
       }
     },
-    setList: (state, action: PayloadAction<IItem[]>) => {
-      state.list = action.payload;
+    removeItem: (state, action: PayloadAction<string>) => {
+      const list = state.sidebarList.find(
+        (item) => item._id === state.activeListId
+      );
+      if (list) {
+        list.items = list.items.filter((item) => item._id !== action.payload);
+      }
     },
+    toggleItem: (state, action: PayloadAction<IItem>) => {
+      const list = state.sidebarList.find(
+        (item) => item._id === state.activeListId
+      );
+      if (list) {
+        const item = list.items.find((item) => item._id === action.payload._id);
+        if (item) {
+          item.isDone = !action.payload.isDone;
+        }
+      }
+    },
+    // setList: (state, action: PayloadAction<IItem[]>) => {
+    //   state.list = action.payload;
+    // },
     setTitle: (state, action: PayloadAction<string>) => {
       state.title = action.payload;
     },
     updateItem: (state, action: PayloadAction<IItem>) => {
-      const item = state.list.find((item) => item._id === action.payload._id);
-      if (item) {
-        item.description = action.payload.description;
+      const list = state.sidebarList.find(
+        (item) => item._id === state.activeListId
+      );
+
+      if (list) {
+        const item = list.items.find((item) => item._id === action.payload._id);
+        if (item) {
+          item.description = action.payload.description;
+        }
       }
     },
     setSidebarList: (state, action: PayloadAction<IList[]>) => {
@@ -53,6 +74,12 @@ export const listSlice = createSlice({
       state.sidebarList = state.sidebarList.filter(
         (item) => item._id !== action.payload._id
       );
+    },
+    addItemToSidebarList: (state, action: PayloadAction<IItem>) => {
+      const index = state.sidebarList.findIndex(
+        (item) => item._id === state.activeListId
+      );
+      state.sidebarList[index].items.push(action.payload);
     },
     addSidebarItem: (state, action: PayloadAction<IList>) => {
       state.sidebarList.push(action.payload);
@@ -73,7 +100,7 @@ export const {
   addItem,
   removeItem,
   toggleItem,
-  setList,
+  // setList,
   setTitle,
   updateItem,
   setSidebarList,

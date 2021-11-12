@@ -2,7 +2,6 @@ import { Dispatch } from "redux";
 import { api, listApi, userApi } from "../api/requests";
 import {
   setActiveListId,
-  setList,
   setSidebarList,
   setTitle
 } from "../store/reducers/listReducer";
