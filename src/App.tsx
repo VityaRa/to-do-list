@@ -11,13 +11,18 @@ import { Header } from "./components/header";
 import { Sidebar } from "./components/sidebar";
 import { loadInitialData } from "./functions/loadInitialData";
 import { RootState } from "./store";
-import { cleanModal, setModal, toggleModal } from "./store/reducers/modalReducer";
+import {
+  cleanModal,
+  setModal,
+  toggleModal
+} from "./store/reducers/modalReducer";
+import { CSSTransition } from "react-transition-group";
 
 const App = () => {
   const dispatch = useDispatch();
 
   const isOpenedModal = useSelector((state: RootState) => state.modal.isOpen);
-
+  const [isLoaded, setIsLoaded] = useState(true);
   const { email } = useSelector((state: RootState) => state.user);
 
   useEffect(() => {
@@ -29,7 +34,7 @@ const App = () => {
       dispatch(toggleModal(true));
     } else {
       dispatch(cleanModal());
-  }
+    }
   }, [email]);
 
   return (
@@ -37,7 +42,16 @@ const App = () => {
       <Header></Header>
       <Content></Content>
       <Sidebar />
-      {isOpenedModal && <Modal />}
+      {isOpenedModal && (
+        <CSSTransition
+          in={isLoaded}
+          timeout={300}
+          classNames="alert"
+          unmountOnExit
+        >
+          <Modal />
+        </CSSTransition>
+      )}
     </div>
   );
 };

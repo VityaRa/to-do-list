@@ -33,7 +33,7 @@ aside {
         max-height: 305px;
         background-color: rgba(116, 112, 112, 0.63);
         overflow-y: scroll;
-        
+
         &::-webkit-scrollbar {
             width: 6px;
             height: 6px;
@@ -78,6 +78,9 @@ aside {
             }
             & .text {
                 margin-left: 15px;
+                max-width: 200px;
+                word-wrap: break-word;
+                text-align: left;
             }
         }
     }

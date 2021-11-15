@@ -5,12 +5,13 @@ import "./index.scss";
 
 import { store } from "./store";
 import { Provider } from "react-redux";
+import { Loader } from "./components/common/loader";
 
 const App = lazy(() => import("./App"));
 
 ReactDOM.render(
   <Provider store={store}>
-    <Suspense fallback={<h2 style={{ color: "#000" }}>WAIT</h2>}>
+    <Suspense fallback={<Loader/>}>
       <App />
     </Suspense>
   </Provider>,

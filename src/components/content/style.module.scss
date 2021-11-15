@@ -4,12 +4,18 @@
     height: 100%;
     @include flex-center();
     flex-direction: column;
-    max-width: 500px;
+    width: 80vw;
+    max-width: 750px;
     margin: auto;
+    
     & .empty_text {
         margin-top: 20px;
     }
+    & .bar_wrapper {
+        margin-bottom: 20px;
+    }
 }
+
 
 @media screen and (max-width: 500px) {
     .content {

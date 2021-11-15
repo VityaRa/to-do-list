@@ -9,7 +9,9 @@ import { List } from "../common/list";
 import style from "./style.module.scss";
 
 export const Content = () => {
-  const { sidebarList, activeListId } = useSelector((state: RootState) => state.list);
+  const { sidebarList, activeListId } = useSelector(
+    (state: RootState) => state.list
+  );
   const dispatch = useDispatch();
 
   const addItemHandler = async (value: string) => {
@@ -19,9 +21,20 @@ export const Content = () => {
 
   return (
     <div className={style.content}>
-      <Bar placeholder={"Введите название задания..."} onSuccess={addItemHandler} />
-      {(sidebarList.find(list => list._id === activeListId) ?? {items: []}).items.length ? (
-        <List items={[...(sidebarList.find(list => list._id === activeListId)?.items ?? [])].sort((a, b) => +a.isDone - +b.isDone)} />
+      <div className={style.bar_wrapper}>
+        <Bar
+          placeholder={"Введите название задания..."}
+          onSuccess={addItemHandler}
+        />
+      </div>
+      {(sidebarList.find((list) => list._id === activeListId) ?? { items: [] })
+        .items.length ? (
+        <List
+          items={[
+            ...(sidebarList.find((list) => list._id === activeListId)?.items ??
+              [])
+          ].sort((a, b) => +a.isDone - +b.isDone)}
+        />
       ) : (
         <h3 className={style.empty_text}>Список пуст...</h3>
       )}

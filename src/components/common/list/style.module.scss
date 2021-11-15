@@ -1,8 +1,19 @@
 .container {
-    margin-top: 20px;
     width: 100%;
     display: flex;
     align-items: center;
-    justify-content: center;
+    justify-content: flex-start;
     flex-direction: column;
+    overflow-y: scroll;
+    height: 88vh;
+    &::-webkit-scrollbar {
+        width: 0;
+    }
+    & {
+        -ms-overflow-style: none;
+    }
+
+    & {
+        overflow: -moz-scrollbars-none;
+    }
 }

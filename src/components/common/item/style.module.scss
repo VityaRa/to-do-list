@@ -10,17 +10,35 @@
     }
     & .inner {
         background-color: rgba(255, 255, 255, 0.3);
-        border-radius: 50px;
         padding: 5px;
         width: 100%;
+        border-radius: 50px;
         display: flex;
         justify-content: space-between;
         align-items: center;
         & .text_wrapper {
-            width: 100%;
+            width: calc(100% - 90px);
             color: #fff;
             padding: 10px 20px;
+            p {
+                text-overflow: ellipsis;
+                white-space: nowrap;
+                overflow: hidden;
+                max-width: unset;
+            }
         }
     }
 }
 
+@media screen and (max-width: 500px) {
+    .container {
+        & .inner {
+            & .text_wrapper {
+                max-width: 200px;
+                p {
+                    max-width: 200px;
+                }
+            }
+        }
+    }
+}

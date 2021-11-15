@@ -7,6 +7,8 @@ import { toggleSidebar } from "../../store/reducers/sidebarReducer";
 import { SidebarButton } from "../common/button";
 import style from "./style.module.scss";
 
+export const trimSpaceRegex = /\s\s+/g;
+
 export const Header = () => {
   const dispatch = useDispatch();
   const [isFocused, setIsFocused] = useState(false);
@@ -27,7 +29,7 @@ export const Header = () => {
   const updateTitleHandler = async () => {
     if (value !== title && value.length <= 15) {
       try {
-        const res = await listApi.updateListTitle(activeListId, value);
+        const res = await listApi.updateListTitle(activeListId, value.trim());
 
         dispatch(setTitle(res.data.title));
         dispatch(updateSidebarItem(res.data));
@@ -48,7 +50,7 @@ export const Header = () => {
   const titleRef = useRef(null);
 
   useEffect(() => {
-    setValue(title);
+    setValue(title.replace(trimSpaceRegex, " "));
   }, [title]);
 
   return (
@@ -59,7 +61,7 @@ export const Header = () => {
           className={style.input}
           onFocus={() => {
             setIsFocused(true);
-            setValue(title);
+            setValue(title.replace(trimSpaceRegex, " "));
           }}
           onBlur={() => {
             setIsFocused(false);

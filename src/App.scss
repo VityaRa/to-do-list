@@ -5,6 +5,6 @@
     min-height: 100vh;
     background-color: $background-main;
     position: relative;
-
     overflow: hidden;
+    user-select: none;  
 }
