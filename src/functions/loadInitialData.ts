@@ -18,7 +18,7 @@ export const loadInitialData = async (dispatch: Dispatch) => {
     const res = await listApi.getLists();
 
     const lists: IList[] = res.data;
-
+    
     const savedListId = Cookies.get(_COOKIES_ACTIVE_LIST_ID) || "";
     if (savedListId) {
       const savedList = lists.find((item) => item._id === savedListId) || {
