@@ -6,6 +6,11 @@
     background-color: $background-main;
     position: relative;
     overflow: hidden;
-    user-select: none;  
-    outline: none;
+    user-select: none;
+    & button {
+        outline: none;
+        &:focus {
+            outline: none;
+        }
+    }
 }
