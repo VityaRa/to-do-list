@@ -237,14 +237,17 @@ app.put("/api/list/status", jsonParser, auth, async (req, res) => {
     const id = new objectId(req.body.id);
     const itemId = new objectId(req.body.itemId);
 
-    const { isDone } = req.body
     if (!id || !itemId) res.sendStatus(400);
 
     const collection = req.app.locals.collection.collection("lists");
     try {
-        const result = await collection.findOneAndUpdate({ _id: id, email: req.user, "items._id": itemId }, { $set: { "items.$.isDone": isDone } }, { returnDocument: "after" });
-        const list = result.value;
-        res.send(list.items.find(elem => elem._id.equals(itemId)))
+        const list = await collection.findOne({ _id: id, email: req.user, "items._id": itemId })
+        console.log(list.items.find(item => item._id.equals(itemId)));
+        const itemIsDoneValue = list.items.find(item => item._id.equals(itemId)).isDone
+        const result = await collection.findOneAndUpdate({ _id: id, email: req.user, "items._id": itemId }, { $set: { "items.$.isDone": !itemIsDoneValue } }, { returnDocument: "after" });
+        const newList = result.value;
+        console.log(newList.items.find(elem => elem._id.equals(itemId)));
+        res.send(newList.items.find(elem => elem._id.equals(itemId)))
     }
     catch (err) { return console.log(err); }
 });
