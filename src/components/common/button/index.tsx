@@ -13,9 +13,11 @@ interface IButton {
   type?: ButtonType;
   content?: any;
   isOpen?: boolean;
+  className?: string,
+  disabled?: boolean,
 }
 
-export const Button = ({ onClick, type, icon, content }: IButton) => {
+export const Button = ({ onClick, type, icon, content, className, disabled }: IButton) => {
   return (
     <button
       name={type}
@@ -26,7 +28,10 @@ export const Button = ({ onClick, type, icon, content }: IButton) => {
         [style.add]: type === ButtonType.ADD,
         [style.submit]: type === ButtonType.SUBMIT,
         [style.sidebar]: type === ButtonType.SIDEBAR,
+        [className ?? " "]: true,
+        [style.disabled]: disabled
       })}
+      disabled={disabled}
     >
       {icon && <div className={style.icon_wrapper}>{icon}</div>}
       {content}
@@ -40,9 +45,9 @@ export const DoneButton = ({ onClick }: Partial<IButton>) => {
   );
 };
 
-export const AddButton = ({ onClick }: Partial<IButton>) => {
+export const AddButton = ({ onClick, disabled }: Partial<IButton>) => {
   return (
-    <Button type={ButtonType.ADD} onClick={onClick} icon={<AddIcon/>}></Button>
+    <Button type={ButtonType.ADD} onClick={onClick} disabled={disabled} icon={<AddIcon/>}></Button>
   );
 };
 
@@ -52,12 +57,13 @@ export const RemoveButton = ({ onClick }: Partial<IButton>) => {
   );
 };
 
-export const SubmitButton = ({ onClick, content }: Partial<IButton>) => {
+export const SubmitButton = ({ onClick, content, className }: Partial<IButton>) => {
   return (
     <Button
       type={ButtonType.SUBMIT}
       onClick={onClick}
       content={content}
+      className={className}
     ></Button>
   );
 };

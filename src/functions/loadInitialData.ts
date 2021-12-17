@@ -19,7 +19,7 @@ export const loadInitialData = async (dispatch: Dispatch) => {
 
     const lists: IList[] = res.data;
     
-    const savedListId = Cookies.get(_COOKIES_ACTIVE_LIST_ID) || "";
+    const savedListId = localStorage.getItem(_COOKIES_ACTIVE_LIST_ID) || "";
     if (savedListId) {
       const savedList = lists.find((item) => item._id === savedListId) || {
         title: "",

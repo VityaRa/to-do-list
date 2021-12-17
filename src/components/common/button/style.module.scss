@@ -40,6 +40,9 @@ $btn-size: 40px;
         right: 20px;
         background-color: transparent;
     }
+    &.disabled {
+        pointer-events: none;
+    }
 }
 
 .icon_wrapper {

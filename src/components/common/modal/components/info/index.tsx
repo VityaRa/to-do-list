@@ -25,8 +25,8 @@ export const Info = ({ item }: IProps) => {
   const ref = useRef<any>(null);
 
   const toggle_item = async () => {
-    await listApi.updateItemStatus(activeListId, item._id, !item.isDone)
-    dispatch(toggleItem(item));
+    const newItem = await listApi.updateItemStatus(activeListId, item._id, !item.isDone)
+    dispatch(toggleItem(newItem.data));
   };
 
   const remove_item = async () => {

@@ -9,7 +9,6 @@ import { loadInitialData } from "./loadInitialData";
 
 export const logout = async (dispatch: Dispatch) => {
     localStorage.clear();
-    Cookies.remove(_COOKIES_ACTIVE_LIST_ID);
     dispatch(logoutAction())
     dispatch(clearData())
     dispatch(toggleSidebar())

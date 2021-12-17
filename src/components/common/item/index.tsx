@@ -9,29 +9,25 @@ import { IItem } from "../../../types/interfaces";
 import { Button, DoneButton, RemoveButton } from "../button";
 import { Info } from "../modal/components/info";
 import style from "./style.module.scss";
-import { CSSTransition } from "react-transition-group";
 
 interface IProps {
   item: IItem;
 }
 
 export const Item = ({ item }: IProps) => {
-  const [isLoaded, setIsLoaded] = useState(true);
 
   const dispatch = useDispatch();
   const { activeListId } = useSelector((state: RootState) => state.list);
 
   const toggle_item = async () => {
-    setIsLoaded(false);
-    await listApi.updateItemStatus(activeListId, item._id, !item.isDone);
-    setIsLoaded(true);
-    dispatch(toggleItem(item));
+    const newItem = await listApi.updateItemStatus(activeListId, item._id, !item.isDone);
+    console.log(newItem.data);
+    
+    dispatch(toggleItem(newItem.data));
   };
 
   const remove_item = async () => {
-    setIsLoaded(false);
     await listApi.removeItemFromList(activeListId, item._id);
-    setIsLoaded(true);
 
     dispatch(removeItem(item._id));
   };
@@ -42,7 +38,6 @@ export const Item = ({ item }: IProps) => {
   };
 
   return (
-    <CSSTransition in={isLoaded} timeout={150} classNames="alert" unmountOnExit>
       <li
         className={classNames(style.container, {
           [style.done]: item.isDone
@@ -67,6 +62,5 @@ export const Item = ({ item }: IProps) => {
           />
         </div>
       </li>
-    </CSSTransition>
   );
 };

@@ -1,5 +1,10 @@
 @import "../../mixins/colors.module.scss";
 
+.defaultWidth {
+    width: unset !important;
+    padding: 0 2rem;
+}
+
 .container {
     width: 100%;
     background-color: $background-light;

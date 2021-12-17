@@ -11,13 +11,15 @@ interface IProps {
   placeholder: string;
   marginRight?: string;
   type?: string;
+  disabled?: boolean;
 }
 
 export const Bar = ({
   onSuccess,
   placeholder,
   marginRight = "3vw",
-  type = "main"
+  type = "main",
+  disabled
 }: IProps) => {
   const [value, setValue] = useState("");
   const { activeListId } = useSelector((state: RootState) => state.list);
@@ -57,6 +59,7 @@ export const Bar = ({
       })}
     >
       <input
+        disabled={disabled}
         ref={ref}
         className={style.input}
         type="text"
@@ -75,7 +78,7 @@ export const Bar = ({
         onKeyDown={handleKeyDown}
         style={{ marginRight }}
       />
-      <AddButton onClick={buttonClickHandler} />
+      <AddButton disabled={disabled} onClick={buttonClickHandler} />
     </div>
   );
 };

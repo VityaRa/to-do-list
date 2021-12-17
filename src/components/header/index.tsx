@@ -3,8 +3,10 @@ import { useDispatch, useSelector } from "react-redux";
 import { listApi } from "../../api/requests";
 import { RootState } from "../../store";
 import { setTitle, updateSidebarItem } from "../../store/reducers/listReducer";
+import { setModal, toggleModal } from "../../store/reducers/modalReducer";
 import { toggleSidebar } from "../../store/reducers/sidebarReducer";
-import { SidebarButton } from "../common/button";
+import { SidebarButton, SubmitButton } from "../common/button";
+import { SignIn } from "../common/modal/components/signIn";
 import style from "./style.module.scss";
 
 export const trimSpaceRegex = /\s\s+/g;
@@ -17,6 +19,7 @@ export const Header = () => {
     (state: RootState) => state.sidebar.isOpen
   );
   const { title, activeListId } = useSelector((state: RootState) => state.list);
+  const { email } = useSelector((state: RootState) => state.user);
 
   const ref = useRef<any>(null);
 
@@ -26,11 +29,21 @@ export const Header = () => {
     }
   };
 
+  const nonRegisterTitleClick = () => {
+    dispatch(setModal(<SignIn />));
+    dispatch(toggleModal(true));
+  };
+
+  const nonTitleClick = () => {
+    if (!isOpenedSidebar) {
+      dispatch(toggleSidebar());
+    }
+  }
+
   const updateTitleHandler = async () => {
     if (value !== title && value.length <= 15) {
       try {
         const res = await listApi.updateListTitle(activeListId, value.trim());
-
         dispatch(setTitle(res.data.title));
         dispatch(updateSidebarItem(res.data));
       } catch (e) {
@@ -56,22 +69,38 @@ export const Header = () => {
   return (
     <header className={style.container}>
       <div className={style.wrapper}>
-        <input
-          ref={ref}
-          className={style.input}
-          onFocus={() => {
-            setIsFocused(true);
-            setValue(title.replace(trimSpaceRegex, " "));
-          }}
-          onBlur={() => {
-            setIsFocused(false);
-            updateTitleHandler();
-          }}
-          onKeyDown={handleKeyDown}
-          onInput={(e: any) => setValue(e.target.value)}
-          type="text"
-          value={value}
-        />
+        {email ? (
+          title ? (
+            <input
+              ref={ref}
+              className={style.input}
+              onFocus={() => {
+                setIsFocused(true);
+                setValue(title.replace(trimSpaceRegex, " "));
+              }}
+              onBlur={() => {
+                setIsFocused(false);
+                updateTitleHandler();
+              }}
+              onKeyDown={handleKeyDown}
+              onInput={(e: any) => setValue(e.target.value)}
+              type="text"
+              value={value}
+            />
+          ) : (
+            <SubmitButton
+              onClick={nonTitleClick}
+              content={"Создать список"}
+              className={style.defaultWidth}
+            ></SubmitButton>
+          )
+        ) : (
+          <SubmitButton
+            onClick={nonRegisterTitleClick}
+            content={"Войти"}
+            className={style.defaultWidth}
+          ></SubmitButton>
+        )}
         <SidebarButton isOpen={isOpenedSidebar} onClick={sidebarClickHandler} />
       </div>
     </header>

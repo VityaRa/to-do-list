@@ -7,7 +7,11 @@ import { useOutsideClick } from "../../hooks/useOutsideClick";
 import { RootState } from "../../store";
 import {
   addSidebarItem,
+  finishProcessing,
   removeSidebarItem,
+  setActiveListId,
+  setFirstSidebarList,
+  startProcessing,
 } from "../../store/reducers/listReducer";
 import { toggleSidebar } from "../../store/reducers/sidebarReducer";
 import { IItem, IList } from "../../types/interfaces";
@@ -19,6 +23,7 @@ import { _COOKIES_ACTIVE_LIST_ID } from "../../utils/constants";
 import { logout } from "../../functions/logout";
 import { setModal, toggleModal } from "../../store/reducers/modalReducer";
 import { SignIn } from "../common/modal/components/signIn";
+import { TransitionGroup, CSSTransition } from "react-transition-group";
 
 export const Sidebar = () => {
   const { isOpen, searchWord } = useSelector(
@@ -39,21 +44,33 @@ export const Sidebar = () => {
 
   const itemClickHandler = async (item: IList) => {
     if (item._id !== activeListId) {
+      dispatch(startProcessing());
       const res = await listApi.getListById(item._id);
       setMainList(dispatch, res.data);
-      Cookies.set(_COOKIES_ACTIVE_LIST_ID, item._id);
+      dispatch(finishProcessing());
+      localStorage.setItem(_COOKIES_ACTIVE_LIST_ID, item._id)
     }
     dispatch(toggleSidebar());
   };
 
   const createListHandler = async (title: string) => {
     const res = await listApi.createList(title);
+    if (!sidebarList.length) {
+      dispatch(addSidebarItem(res.data));
+      setMainList(dispatch, res.data)
+      
+      return;
+    }
     dispatch(addSidebarItem(res.data));
+
   };
 
   const removeListItem = async (item: IList) => {
     const res = await listApi.removeList(item._id);
     dispatch(removeSidebarItem(item));
+    if (activeListId === item._id) {
+      dispatch(setFirstSidebarList());
+    }
   };
 
   const signInHandler = () => {
@@ -73,9 +90,9 @@ export const Sidebar = () => {
           type={"sidebar"}
         />
       </div>
-      <ul>
-        {sidebarList.length ? (
-          sidebarList
+      {sidebarList.length ? (
+        <TransitionGroup component={"ul"}>
+          {sidebarList
             .filter(
               (list) =>
                 list.title.includes(searchWord) ||
@@ -83,40 +100,43 @@ export const Sidebar = () => {
             )
             .map((item) => {
               return (
-                <li
-                  key={item._id}
-                  className={classNames(style.item, {
-                    [style.active]: item._id === activeListId
-                  })}
-                  onClick={() => itemClickHandler(item)}
-                  onMouseOver={() => setHoveredId(item._id)}
-                  onMouseLeave={() => setHoveredId("")}
-                >
-                  <p className={style.text}>{item.title}</p>
-                  <div className={style.right_info}>
-                    <p className={style.count}>
-                      {item.items.length
-                        ? item.items.filter((elem) => !elem.isDone).length
-                        : ""}
-                    </p>
-                    <div style={{ opacity: item._id === hoveredId ? 1 : 0 }}>
-                      <RemoveButton
-                        onClick={(e) => {
-                          removeListItem(item);
-                          e.stopPropagation();
-                        }}
-                      />
+                <CSSTransition key={item._id} timeout={350} classNames="item">
+                  <li
+                    key={item._id}
+                    className={classNames(style.item, {
+                      [style.active]: item._id === activeListId,
+                    })}
+                    onClick={() => itemClickHandler(item)}
+                    onMouseOver={() => setHoveredId(item._id)}
+                    onMouseLeave={() => setHoveredId("")}
+                  >
+                    <p className={style.text}>{item.title}</p>
+                    <div className={style.right_info}>
+                      <p className={style.count}>
+                        {item.items.length
+                          ? item.items.filter((elem) => !elem.isDone).length
+                          : ""}
+                      </p>
+                      <div style={{ opacity: item._id === hoveredId ? 1 : 0 }}>
+                        <RemoveButton
+                          onClick={(e) => {
+                            removeListItem(item);
+                            e.stopPropagation();
+                          }}
+                        />
+                      </div>
                     </div>
-                  </div>
-                </li>
+                  </li>
+                </CSSTransition>
               );
-            })
-        ) : (
-          <div className={style.empty_list}>
-            <p>Здесь будут находится ваши списки</p>
-          </div>
-        )}
-      </ul>
+            })}
+        </TransitionGroup>
+      ) : (
+        <div className={style.empty_list}>
+          <p>Здесь будут находится ваши списки</p>
+        </div>
+      )}
+
       <div className={style.button_container}>
         {email ? (
           <SubmitButton

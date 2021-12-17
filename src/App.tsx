@@ -14,7 +14,7 @@ import { RootState } from "./store";
 import {
   cleanModal,
   setModal,
-  toggleModal
+  toggleModal,
 } from "./store/reducers/modalReducer";
 import { CSSTransition } from "react-transition-group";
 
@@ -26,8 +26,10 @@ const App = () => {
   const { email } = useSelector((state: RootState) => state.user);
 
   useEffect(() => {
-    setAuthData();
-    loadInitialData(dispatch);
+    const isUser = setAuthData();
+    if (isUser) {
+      loadInitialData(dispatch);
+    }
 
     if (!email) {
       dispatch(setModal(<SignIn />));
@@ -40,7 +42,9 @@ const App = () => {
   return (
     <div className="App">
       <Header></Header>
+
       <Content></Content>
+
       <Sidebar />
       {isOpenedModal && (
         <CSSTransition
