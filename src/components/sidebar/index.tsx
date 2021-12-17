@@ -88,7 +88,7 @@ export const Sidebar = () => {
           onSuccess={createListHandler}
           marginRight={"10px"}
           type={"sidebar"}
-          disabled={!email || !title}
+          disabled={!email}
 
         />
       </div>
