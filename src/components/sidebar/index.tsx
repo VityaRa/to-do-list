@@ -30,7 +30,7 @@ export const Sidebar = () => {
     (state: RootState) => state.sidebar
   );
   const { email } = useSelector((state: RootState) => state.user);
-  const { sidebarList, activeListId } = useSelector(
+  const { sidebarList, activeListId, title } = useSelector(
     (state: RootState) => state.list
   );
   const [hoveredId, setHoveredId] = useState<string>("");
@@ -88,6 +88,8 @@ export const Sidebar = () => {
           onSuccess={createListHandler}
           marginRight={"10px"}
           type={"sidebar"}
+          disabled={!email || !title}
+
         />
       </div>
       {sidebarList.length ? (
