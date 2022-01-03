@@ -23,6 +23,7 @@ export default {
         toSignUp: 'Зарегистрироваться',
 
         signIn: 'Вход',
+        save: 'Сохранить',
     },
     error: {
         header: {
@@ -35,6 +36,7 @@ export default {
             noAccount: 'Нет аккаунта?',
             haveAccount: 'Уже есть аккаунт?',
             signUp: 'Зарегистрируйтесь',
+            description: 'Описание',
         },
         placeholder: {
             email: 'Введите ваш e-mail',
@@ -53,6 +55,7 @@ export default {
     settings: {
         label: {
             title: 'Настройки',
-        }
+            language: 'Выбор языка',
+        } 
     }
 }

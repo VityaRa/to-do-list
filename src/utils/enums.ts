@@ -5,6 +5,7 @@ export enum ButtonType {
     SUBMIT = "SUBMIT",
     SIDEBAR = "SIDEBAR",
     SETTINGS = "SETTINGS",
+    LANGUAGE = "LANGUAGE",
 }
 
 export enum LANG {

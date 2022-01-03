@@ -1,3 +1,4 @@
+import { t } from "i18next";
 import { useEffect, useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { api, listApi } from "../../../../../api/requests";
@@ -49,7 +50,7 @@ export const Info = ({ item }: IProps) => {
 
   return (
     <div className={style.container}>
-      <h4 className={style.title}>Описание</h4>
+      <h4 className={style.title}>{t('modal.label.description')}</h4>
       <textarea
         value={value}
         onInput={(e: any) => setValue(e.target.value)}
@@ -61,7 +62,7 @@ export const Info = ({ item }: IProps) => {
         ref={ref}
       ></textarea>
       <div className={style.submit_btn}>
-        <SubmitButton content={"Сохранить"} onClick={() => updateDesc()} />
+        <SubmitButton content={t('button.save')} onClick={() => updateDesc()} />
       </div>
       <div className={style.button_container}>
         <DoneButton onClick={toggle_item} />

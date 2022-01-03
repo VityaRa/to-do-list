@@ -23,6 +23,7 @@ export default {
         toSignUp: 'Sign Up',
 
         signIn: 'Sign In',
+        save: 'Save',
     },
     error: {
         header: {
@@ -35,6 +36,7 @@ export default {
             noAccount: 'No account?',
             haveAccount: 'Already have an account?',
             signUp: 'Sign Up',
+            description: 'Description',
         },
         placeholder: {
             email: 'Enter an e-mail',
@@ -53,6 +55,7 @@ export default {
     settings: {
         label: {
             title: 'Settings',
+            language: 'Language selection',
         }
     }
 }

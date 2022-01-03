@@ -29,6 +29,7 @@ export const Button = ({ onClick, type, icon, content, className, disabled, isOp
         [style.submit]: type === ButtonType.SUBMIT,
         [style.sidebar]: type === ButtonType.SIDEBAR,
         [style.settings]: type === ButtonType.SETTINGS,
+        [style.language]: type === ButtonType.LANGUAGE,
         [style.opened]: isOpen,
         [className ?? ""]: true,
         [style.disabled]: disabled
@@ -87,6 +88,17 @@ export const SettingsButton = ({ onClick, isOpen }: Partial<IButton>) => {
       onClick={onClick}
       isOpen={isOpen}
       content={<SettingsIcon/>}
+    ></Button>
+  );
+};
+
+export const LanguageButton = ({ onClick, content, className }: Partial<IButton>) => {
+  return (
+    <Button
+      type={ButtonType.LANGUAGE}
+      onClick={onClick}
+      content={content}
+      className={className ?? ''}
     ></Button>
   );
 };
