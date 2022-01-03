@@ -3,5 +3,11 @@ export enum ButtonType {
     DONE = "DONE",
     ADD = "ADD",
     SUBMIT = "SUBMIT",
-    SIDEBAR = "SIDEBAR"
+    SIDEBAR = "SIDEBAR",
+    SETTINGS = "SETTINGS",
+}
+
+export enum LANG {
+    RUS = 'ru',
+    ENG = 'en'
 }

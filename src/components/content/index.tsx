@@ -1,18 +1,21 @@
+import { useTranslation } from "react-i18next";
 import { useDispatch, useSelector } from "react-redux";
-import { api, listApi } from "../../api/requests";
-import { RootState } from "../../store";
-import { addItem } from "../../store/reducers/listReducer";
-import { IList } from "../../types/interfaces";
-import { Bar } from "../bar";
-import { AddButton } from "../common/button";
-import { List } from "../common/list";
-import { Loader } from "../common/loader";
+
+import { listApi } from "api/requests";
+import { RootState } from "store";
+import { addItem } from "store/reducers/listReducer";
+
+import { Bar } from "components/bar";
+import { Loader } from "components/common/loader";
+import { List } from "components/common/list";
+
 import style from "./style.module.scss";
 
 export const Content = () => {
   const { sidebarList, activeListId } = useSelector(
     (state: RootState) => state.list
   );
+  const { t } = useTranslation()
   const { email } = useSelector((state: RootState) => state.user);
   const { isProcessingFinished, title } = useSelector(
     (state: RootState) => state.list
@@ -29,7 +32,7 @@ export const Content = () => {
     <div className={style.content}>
       <div className={style.bar_wrapper}>
         <Bar
-          placeholder={"Введите название задания..."}
+          placeholder={t('input.placeholder.itemAdd')}
           onSuccess={addItemHandler}
           disabled={!email || !title}
         />
@@ -44,7 +47,7 @@ export const Content = () => {
           ].sort((a, b) => +a.isDone - +b.isDone)}
         />
       ) : (
-        <h3 className={style.empty_text}>Список пуст...</h3>
+        <h3 className={style.empty_text}>{t('content.label.emptyList')}</h3>
       )): <Loader />}
     </div>
   );

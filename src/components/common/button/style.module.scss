@@ -35,13 +35,22 @@ $btn-size: 40px;
         }
     }
     &.sidebar {
-        z-index: 9999;
+        z-index: 99;
         position: absolute;
         right: 20px;
         background-color: transparent;
     }
     &.disabled {
         pointer-events: none;
+    }
+    &.settings {
+        z-index: 99;
+        position: absolute;
+        left: 20px;
+        background-color: transparent;
+    }
+    &.opened {
+        transform: rotate(90deg);
     }
 }
 

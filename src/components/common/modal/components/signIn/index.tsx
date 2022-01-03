@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { useTranslation } from "react-i18next";
 import { useDispatch } from "react-redux";
 import { userApi } from "../../../../../api/requests";
 import {
@@ -26,6 +27,7 @@ export const SignIn = () => {
   const [password, setPassword] = useState("");
   const [isCorrect, setIsCorrect] = useState(true);
   const dispatch = useDispatch();
+  const { t } = useTranslation()
 
   const signInHandler = async () => {
     try {
@@ -45,13 +47,13 @@ export const SignIn = () => {
 
   return (
     <div className={style.container}>
-      <h2 className={style.title}>Вход</h2>
-      {!isCorrect && <p className={style.error}>Введены неверные данные</p>}
+      <h2 className={style.title}>{t('modal.title.loggining')}</h2>
+      {!isCorrect && <p className={style.error}>{t('modal.error.wrongData')}</p>}
       <div className={style.input}>
         <Input
           value={email}
           onChangeHandler={(e) => setEmail(e.target.value)}
-          placeholder={labelMessage.email}
+          placeholder={t('modal.placeholder.email')}
           type="email"
         />
       </div>
@@ -59,16 +61,16 @@ export const SignIn = () => {
         <Input
           value={password}
           onChangeHandler={(e) => setPassword(e.target.value)}
-          placeholder={labelMessage.password}
+          placeholder={t('modal.placeholder.password')}
           type="password"
         />
       </div>
       <div className={style.extra}>
         <p>
-          Нет аккаунта? <span onClick={openSignUp}>Зарегистрируйтесь</span>
+          {t('modal.label.noAccount')} <span onClick={openSignUp}>{t('modal.label.signUp')}</span>
         </p>
       </div>
-      <SubmitButton content={"Войти"} onClick={signInHandler}></SubmitButton>
+      <SubmitButton content={t('button.toSignIn')} onClick={signInHandler}></SubmitButton>
     </div>
   );
 };

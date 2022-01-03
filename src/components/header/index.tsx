@@ -1,23 +1,30 @@
+import React from "react";
 import { useEffect, useRef, useState } from "react";
+import { useTranslation } from "react-i18next";
 import { useDispatch, useSelector } from "react-redux";
 import { listApi } from "../../api/requests";
 import { RootState } from "../../store";
 import { setTitle, updateSidebarItem } from "../../store/reducers/listReducer";
 import { setModal, toggleModal } from "../../store/reducers/modalReducer";
-import { toggleSidebar } from "../../store/reducers/sidebarReducer";
-import { SidebarButton, SubmitButton } from "../common/button";
+import { toggleSettings, toggleSidebar } from "../../store/reducers/sidebarReducer";
+import { SettingsButton, SidebarButton, SubmitButton } from "../common/button";
 import { SignIn } from "../common/modal/components/signIn";
 import style from "./style.module.scss";
 
 export const trimSpaceRegex = /\s\s+/g;
 
-export const Header = () => {
+export const Header = React.memo(() => {
   const dispatch = useDispatch();
   const [isFocused, setIsFocused] = useState(false);
   const [value, setValue] = useState("");
   const isOpenedSidebar = useSelector(
     (state: RootState) => state.sidebar.isOpen
   );
+  const {isOpenedSettings} = useSelector(
+    (state: RootState) => state.sidebar
+  );
+  const { t } = useTranslation()
+
   const { title, activeListId } = useSelector((state: RootState) => state.list);
   const { email } = useSelector((state: RootState) => state.user);
 
@@ -28,6 +35,13 @@ export const Header = () => {
       dispatch(toggleSidebar());
     }
   };
+
+  const settingsClickHandler = () => {
+    if (!isOpenedSettings) {
+      dispatch(toggleSettings());
+    }
+  };
+
 
   const nonRegisterTitleClick = () => {
     dispatch(setModal(<SignIn />));
@@ -41,15 +55,16 @@ export const Header = () => {
   }
 
   const updateTitleHandler = async () => {
-    if (value !== title && value.length <= 15) {
+    if (value !== title && value.length <= 15 && value.length) {
       try {
         const res = await listApi.updateListTitle(activeListId, value.trim());
         dispatch(setTitle(res.data.title));
         dispatch(updateSidebarItem(res.data));
       } catch (e) {
-        alert("Введите название");
+        alert(t('error.header.emptyTitle'));
       }
     } else {
+      alert(t('error.header.newTitle'))
       setValue(title);
     }
   };
@@ -69,6 +84,7 @@ export const Header = () => {
   return (
     <header className={style.container}>
       <div className={style.wrapper}>
+        <SettingsButton isOpen={isOpenedSettings} onClick={settingsClickHandler} />
         {email ? (
           title ? (
             <input
@@ -97,7 +113,7 @@ export const Header = () => {
         ) : (
           <SubmitButton
             onClick={nonRegisterTitleClick}
-            content={"Войти"}
+            content={t('button.toSignIn')}
             className={style.defaultWidth}
           ></SubmitButton>
         )}
@@ -105,4 +121,4 @@ export const Header = () => {
       </div>
     </header>
   );
-};
+});

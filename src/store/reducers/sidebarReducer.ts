@@ -1,28 +1,33 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 
 export interface ISidebarState {
-  isOpen: boolean
-  searchWord: string,
+  isOpen: boolean;
+  isOpenedSettings: boolean;
+  searchWord: string;
 }
 
 const initialState: ISidebarState = {
-    isOpen: false,
-    searchWord: "",
-}
+  isOpen: false,
+  isOpenedSettings: false,
+  searchWord: ""
+};
 
 export const sidebarSlice = createSlice({
   name: "modal",
   initialState,
   reducers: {
     toggleSidebar: (state) => {
-        state.isOpen = !state.isOpen
+      state.isOpen = !state.isOpen;
+    },
+    toggleSettings: (state) => {
+      state.isOpenedSettings = !state.isOpenedSettings;
     },
     setSearchWord: (state, action: PayloadAction<string>) => {
-      state.searchWord = action.payload
+      state.searchWord = action.payload;
     }
   }
 });
 
-export const { toggleSidebar, setSearchWord } = sidebarSlice.actions;
+export const { toggleSidebar, setSearchWord, toggleSettings } = sidebarSlice.actions;
 
 export default sidebarSlice.reducer;

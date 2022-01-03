@@ -6,8 +6,11 @@ import "./index.scss";
 import { store } from "./store";
 import { Provider } from "react-redux";
 import { Loader } from "./components/common/loader";
+import { initLanguages } from "./functions/initLanguages";
 
 const App = lazy(() => import("./App"));
+
+initLanguages()
 
 ReactDOM.render(
   <Provider store={store}>

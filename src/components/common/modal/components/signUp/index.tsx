@@ -1,3 +1,4 @@
+import { t } from "i18next";
 import { useState } from "react";
 import { useDispatch } from "react-redux";
 import { userApi } from "../../../../../api/requests";
@@ -46,14 +47,14 @@ export const SignUp = () => {
 
   return (
     <div className={style.container}>
-      <h2 className={style.title}>Регистрация</h2>
+      <h2 className={style.title}>{t('modal.title.registration')}</h2>
       <div className={style.input}>
         <Input
           value={email}
           onChangeHandler={(e) => setEmail(e.target.value)}
           checkError={dataCheck.email}
-          errorText={errorMessage.email}
-          placeholder={labelMessage.email}
+          errorText={t('modal.error.email')}
+          placeholder={t('modal.placeholder.email')}
         />
       </div>
       <div className={style.input}>
@@ -61,17 +62,17 @@ export const SignUp = () => {
           value={password}
           onChangeHandler={(e) => setPassword(e.target.value)}
           checkError={dataCheck.password}
-          errorText={errorMessage.password}
-          placeholder={labelMessage.password}
+          errorText={t('modal.error.password')}
+          placeholder={t('modal.placeholder.password')}
         />
       </div>
       <div className={style.extra}>
         <p>
-          Есть аккаунт? <span onClick={openSignIn}>Войдите</span>
+          {t('modal.label.haveAccount')} <span onClick={openSignIn}>{t('button.toSignIn_v2')}</span>
         </p>
       </div>
       <SubmitButton
-        content={"Зарегистрироваться"}
+        content={t('button.toSignUp')}
         onClick={registerHandler}
       ></SubmitButton>
     </div>

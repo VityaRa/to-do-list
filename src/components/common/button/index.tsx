@@ -1,8 +1,8 @@
+import { SettingsIcon } from "assets/SettingsIcon";
 import classNames from "classnames";
 import { AddIcon } from "../../../assets/AddIcon";
 import { DoneIcon } from "../../../assets/DoneIcon";
 import { Hamburger } from "../../../assets/HamburgerButton/HamburgerButton";
-import { IItem } from "../../../types/interfaces";
 import { ButtonType } from "../../../utils/enums";
 import style from "./style.module.scss";
 
@@ -17,7 +17,7 @@ interface IButton {
   disabled?: boolean,
 }
 
-export const Button = ({ onClick, type, icon, content, className, disabled }: IButton) => {
+export const Button = ({ onClick, type, icon, content, className, disabled, isOpen }: IButton) => {
   return (
     <button
       name={type}
@@ -28,7 +28,9 @@ export const Button = ({ onClick, type, icon, content, className, disabled }: IB
         [style.add]: type === ButtonType.ADD,
         [style.submit]: type === ButtonType.SUBMIT,
         [style.sidebar]: type === ButtonType.SIDEBAR,
-        [className ?? " "]: true,
+        [style.settings]: type === ButtonType.SETTINGS,
+        [style.opened]: isOpen,
+        [className ?? ""]: true,
         [style.disabled]: disabled
       })}
       disabled={disabled}
@@ -73,8 +75,18 @@ export const SidebarButton = ({ onClick, isOpen }: Partial<IButton>) => {
     <Button
       type={ButtonType.SIDEBAR}
       onClick={onClick}
-      isOpen={isOpen}
       content={<Hamburger/>}
+    ></Button>
+  );
+};
+
+export const SettingsButton = ({ onClick, isOpen }: Partial<IButton>) => {
+  return (
+    <Button
+      type={ButtonType.SETTINGS}
+      onClick={onClick}
+      isOpen={isOpen}
+      content={<SettingsIcon/>}
     ></Button>
   );
 };

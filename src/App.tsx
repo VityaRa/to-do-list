@@ -17,6 +17,7 @@ import {
   toggleModal,
 } from "./store/reducers/modalReducer";
 import { CSSTransition } from "react-transition-group";
+import { Settings } from "components/sidebar/settings/settingsSidebar";
 
 const App = () => {
   const dispatch = useDispatch();
@@ -41,6 +42,8 @@ const App = () => {
 
   return (
     <div className="App">
+      <Settings />
+      
       <Header></Header>
 
       <Content></Content>

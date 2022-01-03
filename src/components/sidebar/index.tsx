@@ -24,8 +24,11 @@ import { logout } from "../../functions/logout";
 import { setModal, toggleModal } from "../../store/reducers/modalReducer";
 import { SignIn } from "../common/modal/components/signIn";
 import { TransitionGroup, CSSTransition } from "react-transition-group";
+import { useTranslation } from "react-i18next";
+import React from "react";
 
-export const Sidebar = () => {
+export const Sidebar = React.memo(() => {
+
   const { isOpen, searchWord } = useSelector(
     (state: RootState) => state.sidebar
   );
@@ -33,6 +36,8 @@ export const Sidebar = () => {
   const { sidebarList, activeListId, title } = useSelector(
     (state: RootState) => state.list
   );
+  const {t} = useTranslation()
+
   const [hoveredId, setHoveredId] = useState<string>("");
   const dispatch = useDispatch();
 
@@ -81,10 +86,10 @@ export const Sidebar = () => {
 
   return (
     <aside className={isOpen ? style.active : ""} ref={ref}>
-      <h2 className={style.title}>Ваши списки</h2>
+      <h2 className={style.title}>{t('sidebar.label.lists')}</h2>
       <div className={style.button}>
         <Bar
-          placeholder={"Поиск/добавление списка"}
+          placeholder={t('input.placeholder.itemSearch')}
           onSuccess={createListHandler}
           marginRight={"10px"}
           type={"sidebar"}
@@ -135,7 +140,7 @@ export const Sidebar = () => {
         </TransitionGroup>
       ) : (
         <div className={style.empty_list}>
-          <p>Здесь будут находится ваши списки</p>
+          <p>{t('sidebar.label.emptyLists')}</p>
         </div>
       )}
 
@@ -143,15 +148,15 @@ export const Sidebar = () => {
         {email ? (
           <SubmitButton
             onClick={() => logout(dispatch)}
-            content={"Выйти"}
+            content={t('button.toLogout')}
           ></SubmitButton>
         ) : (
           <SubmitButton
             onClick={signInHandler}
-            content={"Войти"}
+            content={t('button.signIn')}
           ></SubmitButton>
         )}
       </div>
     </aside>
   );
-};
+});
