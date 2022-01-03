@@ -75,6 +75,7 @@ export const SidebarButton = ({ onClick, isOpen }: Partial<IButton>) => {
   return (
     <Button
       type={ButtonType.SIDEBAR}
+      isOpen={isOpen}
       onClick={onClick}
       content={<Hamburger/>}
     ></Button>

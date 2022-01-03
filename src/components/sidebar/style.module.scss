@@ -12,6 +12,7 @@ aside {
     &.active {
         opacity: 1;
         transform: translateX(0);
+        z-index: 9999;
     }
     & .title {
         text-align: center;

@@ -39,6 +39,9 @@ $btn-size: 40px;
         position: absolute;
         right: 20px;
         background-color: transparent;
+        &.opened {
+            z-index: 10000;
+        }
     }
     &.disabled {
         pointer-events: none;
@@ -48,7 +51,10 @@ $btn-size: 40px;
         position: absolute;
         left: 20px;
         background-color: transparent;
-
+        &.opened {
+            z-index: 10000;
+            transform: rotate(90deg);
+        }
     }
     &.language {
         background-color: #fff;
@@ -62,9 +68,6 @@ $btn-size: 40px;
             background-color: #000;
             color: #fff;
         }
-    }
-    &.opened {
-        transform: rotate(90deg);
     }
 }
 

@@ -13,7 +13,7 @@ import style from "./style.module.scss";
 
 export const trimSpaceRegex = /\s\s+/g;
 
-export const Header = React.memo(() => {
+export const Header = () => {
   const dispatch = useDispatch();
   const [isFocused, setIsFocused] = useState(false);
   const [value, setValue] = useState("");
@@ -121,4 +121,4 @@ export const Header = React.memo(() => {
       </div>
     </header>
   );
-});
+};
